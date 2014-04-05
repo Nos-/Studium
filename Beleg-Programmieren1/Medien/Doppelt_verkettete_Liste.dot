@@ -1,0 +1,14 @@
+digraph G {
+  "Doppelt verkettete Liste" -> "Listenverbinder_1" [taillabel = "Head"]
+  "Doppelt verkettete Liste" -> "Listenverbinder_n" [taillabel = "Current"]
+  "Doppelt verkettete Liste" -> "Listenverbinder_2" [taillabel = "Tail"]
+  "Listenverbinder_1" -> "Listenverbinder_2"
+  "Listenverbinder_2" -> "Listenverbinder_1"
+  "Listenverbinder_1" -> "Datensatz_1"
+  "Listenverbinder_2" -> "Datensatz_2"
+  "Listenverbinder_2" -> "..."
+  "..." -> "Listenverbinder_2"
+  "..." -> "Listenverbinder_n"
+  "Listenverbinder_n" -> "..."
+  "Listenverbinder_n" -> "Datensatz_n"
+}
