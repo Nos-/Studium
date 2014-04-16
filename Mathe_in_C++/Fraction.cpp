@@ -1,5 +1,5 @@
-/** Gebrochenrationale Zahlen als C++ Klasse - ein Lern-Bsp.
- *
+/** Mathe für Informatiker - Eine Klasse für gebrochenrationale Zahlen in C++ (Lern-Bsp.)
+ * 
  * @Author s70341@htw-dresden.de, 2014
  */
 // Ohne Gewähr! Nutzung auf eigene Gefahr!
@@ -14,9 +14,12 @@ using namespace std;
 class Fraction
 {
 	private:
+
 		long Numerator;							 			///< Zähler (intern)
 		long Denom;											///< Nenner (intern)
+
 	public:
+
 		Fraction() {Numerator=0; Denom=1;}					///< überladener Konstruktor mit Standardwerten (0/1=0)
 		Fraction(long Num, long Den);						///< Konstruktor
 		long getNumerator() {return Numerator;}				///< Gibt den Zähler zurück
@@ -26,33 +29,17 @@ class Fraction
 		Fraction getReciprocal();							///< Gibt den Kehrwert des Bruches (das Reziproke) zurück
 
 		// Rechenoperationen
-		Fraction add(										///< 2 Brüche miteinander addieren
-		  const Fraction & others							  ///< der 2. Summand
-		);
-		Fraction substract(									///< 2 Brüche voneinander substrahieren
-		  const Fraction & others							  ///< der Minuend
-		);
-		Fraction multiply(									/// 2 Brüche miteinander multiplizieren
-		  const Fraction & others							  ///< der Faktor
-		);
-		Fraction divide(									///< 2 Brüche durcheinander dividieren
-		  const Fraction & others							  ///< der Divisor
-		);
+		Fraction add(const Fraction & others);				///< 2 Brüche miteinander addieren
+		Fraction substract(const Fraction & others);		///< 2 Brüche voneinander substrahieren
+		Fraction multiply(const Fraction & others);			///< 2 Brüche miteinander multiplizieren
+		Fraction divide(const Fraction & others);			///< 2 Brüche durcheinander dividieren
 
 	private:
 	
 		// interne Hilfsfunktionen
 		long min(long a, long b);							///< Gibt den kleineren der beiden Werten zurück (intern)
-
-		long ggt(											///< Größten gemeinsamen Teiler (kurz: ggT; wurde auch *gcf* genannt) zurückgeben (intern)
-		  long first,										  ///< 1. Zahl
-		  long sec											  ///< 2. Teil
-		);
-		long kgv(											///< Kleinstes gemeinsames Vielfaches (kurz: kgV) zurückgeben (intern)
-		  long first,										  ///< 1. Zahl
-		  long sec											  ///< 2. Teil
-		);		
-
+		long ggt(long first, long sec);						///< Größten gemeinsamen Teiler (kurz: ggT; wurde auch *gcf* genannt) zurückgeben (intern)
+		long kgv(long first, long sec);						///< Kleinstes gemeinsames Vielfaches (kurz: kgV) zurückgeben (intern)
 };
 
 /// Konstruktor, der den neuen Bruch auch gleich kürzt.
@@ -67,7 +54,7 @@ Fraction::Fraction(long Num, long Den)
 //Hillfsfunktionen
 /// Gibt den Größten gemeinsamen Teiler (kurz: ggT) zurück. TODO: Auf *EUKLIDischen Algorithmus* umstellen.
 long Fraction::ggt(
-  long first,												///< 1. Zahl
+  long first,												///< 1. Teil
   long sec											 		///< 2. Teil
 )
 {
@@ -79,13 +66,17 @@ long Fraction::ggt(
 	return 1;
 }
 
-long Fraction::kgv(long first, long sec)
-{
+long Fraction::kgv(
+  long first,
+  long sec
+  ) {
 	return (first * sec / ggt(first, sec));					// TODO: Ggf. nochmal kontrollieren
 }
 
-long Fraction::min(long a, long b)
-{
+long Fraction::min(
+  long a,
+  long b
+  ) {
 	if (a < b) return a;
 	else return b;
 }
@@ -107,32 +98,37 @@ Fraction Fraction::getReciprocal()
 }
 
 // Rechenoperationen
-Fraction Fraction::add(const Fraction & others)
-{
-	long sum_num    = (Numerator * others.getDenom()) + (others.getNumerator() * Denom);	/// 1. Zähler mit Nenner des anderen Bruches erweitern und summieren.
+/// 2 Brüche miteinander addieren
+Fraction Fraction::add(
+  const Fraction & others									///< der 2. Summand
+  ) {
+	long sum_num    = (Numerator * others.getDenom()) + (others.getNumerator() * Denom);	/// 1. Zähler mit Nenner des jeweils anderen Bruches erweitern und mit dessen Zähler addieren.
 	long main_denom = Denom * others.getDenom();			/// 2. Haupnenner bilden (=Nenner1 * Nenner2)
 	Fraction Sum(sum_num, main_denom);
 	return Sum;
 }
 
-Fraction Fraction::substract(const Fraction & others)
-{
-	long dif_num    = (Numerator * others.getDenom()) - (others.getNumerator() * Denom);	/// 1. Zähler mit Nenner des anderen Bruches erweitern und substrahieren.
+Fraction Fraction::substract(
+  const Fraction & others
+  ) {
+	long dif_num    = (Numerator * others.getDenom()) - (others.getNumerator() * Denom);	/// 1. Zähler mit Nenner des jeweils anderen Bruches erweitern und desses Zähler substrahieren.
 	long main_denom = Denom * others.getDenom();			/// 2. Haupnenner bilden (=Nenner1 * Nenner2)
 	Fraction Difference(dif_num, main_denom);
 	return Difference;
 }
 
-Fraction Fraction::multiply(const Fraction & others)
-{
-	long prod_num   = Numerator * others.getNumerator();	/// Zähler1 * Zähler2
-	long prod_denom = Denom * others.getDenom();			/// Nenner1 * Nenner2
+Fraction Fraction::multiply(
+  const Fraction & others
+  ) {
+	long prod_num   = Numerator * others.getNumerator();	/// Zähler = Zähler1 * Zähler2
+	long prod_denom = Denom * others.getDenom();			/// Nenner = Nenner1 * Nenner2
 	Fraction Product(prod_num, prod_denom);
 	return Product;
 }
 
-Fraction Fraction::divide(const Fraction & others)
-{
+Fraction Fraction::divide(
+  const Fraction & others
+  ) {
 	return multiply(others.getReciprocal());				/// Bruch1 / Bruch2 = Bruch1 * Reziproke(Bruch2)
 }
 
