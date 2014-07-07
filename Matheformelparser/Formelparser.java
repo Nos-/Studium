@@ -28,9 +28,10 @@ import java.io.StringReader;
  *
  * Der gegebene Ausdruck wird mittels folgender Grammatik geparst:
  *
- * Expr -> Term (("+" | "-") Term)*
- * Term -> Fact (("*" | "/") Fact)*
- * Fact -> "(" Expr ")" | Number
+ * Expr	-> Term (("+" | "-") Term)*
+ * Term	-> Fact (("*" | "/" | "%") Fact)*
+ * Fact	-> Pow (("^") Pow)*
+ * Pow	-> "(" Expr ")" | Number
  *
  * Aufgrund der verwendeten StreamTokenizer- Klasse, müssen Minuszeichen und Zahlen per Leerzeichen voneinander getrennt werden, da dies sonst als negativer Wert interpretiert wird.
  * 
@@ -115,7 +116,7 @@ public class Formelparser {
 
         v = parseFact();
         printIndented("#parseTerm: {" + v + "}");
-        while ((op = lookahead) == '*' || op == '/') {
+        while ((op = lookahead) == '*' || op == '/' || op == '%') {
             printIndented("#parseTerm: {" + v + "}{" + (char)op + "}");
             next();
             w = parseTerm();
@@ -124,21 +125,44 @@ public class Formelparser {
 				v *= w;
 			} else if (op == '/') {							//* Stringvergleich überarbeiten
 				v /= w;
+			} else if (op == '%') {
+				v = v % w;
 			}
         }
         printIndented("<parseTerm= {" + v + "}"); level -= 1;
         return v;
     }
 
-    /// Fact -> "(" Expr ")" | Number
+	/// Fact -> Pow (("^") Pow)
     private double parseFact() throws IOException {
 		level += 1; printIndented(">parseFact()");
+        double v, w;
+        int op;
+
+        v = parseFact();
+        printIndented("#parseFact: {" + v + "}");
+        while ((op = lookahead) == '^') {
+            printIndented("#parseFact: {" + v + "}{" + (char)op + "}");
+            next();
+            w = parseFact();
+            printIndented("#parseFact: {" + v + "}{" + (char)op + "}{" + w + "}");
+//            if (op == '^') {								//* Stringvergleich überarbeiten
+				v = v*v*v ... w;	//* Potenz berechnen
+//			}
+        }
+        printIndented("<parseFact= {" + v + "}"); level -= 1;
+        return v;
+    }	
+
+    /// Pow -> "(" Expr ")" | Number
+    private double parsePow() throws IOException {
+		level += 1; printIndented(">parsePow()");
         double v = 0.0;
         
         if (lookahead == '(') {
             match('(');
             v = parseExpr();
-			printIndented("#parseFact: ( {" + v + "} ) ");
+			printIndented("#parsePow: ( {" + v + "} ) ");
             match(')');
         } else if (lookahead == StreamTokenizer.TT_NUMBER) {
 			v = tokenizer.nval;						//*
@@ -146,10 +170,10 @@ public class Formelparser {
         } else {
             throw new IOException("Unerwartetes Symbol: " + tokenToString(lookahead));
         }
-        printIndented("<parseFact= {" + v + "}"); level -= 1;
+        printIndented("<parsePow= {" + v + "}"); level -= 1;
         return v;
     }
-    
+
     public double parse(String s) throws IOException {
 		level += 1; printIndented(">parse(" + s + ")");
 		double v;
@@ -191,4 +215,3 @@ public class Formelparser {
 		}
     }
 }
-
