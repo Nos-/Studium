@@ -4,9 +4,9 @@ import java.io.StreamTokenizer;
 import java.io.StringReader;
 
 
-/** Formelparser.java - ein Parser zum Auswerten arithmetischer Ausdrücke mittels Recursive-Descent-Parser, der auch rechnet
+/* Formelparser.java - ein Parser zum Auswerten arithmetischer Ausdrücke mittels Recursive-Descent-Parser, der auch rechnet
  *
- * @author Copyright 2014 Norman nospam.schwirz at freenet.de
+ * Copyright 2014 Norman <nospam.schwirz@freenet.de>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ import java.io.StringReader;
 
 
 public class Formelparser {
-    private int lookahead;									/// Vorschau auf das nächste Token (TT_NUMBER, TT_EOF, TT_WORD)
+    private int lookahead;									/// Vorschau auf das nächste Token
     private StreamTokenizer tokenizer;						/// Hilfsobjekt zur Aufsplittung der Eingabe in einzelne Token
     int level = 0;											/// Verschachtelungstiefe für Darstellung
 
@@ -54,18 +54,19 @@ public class Formelparser {
 
 	/// Hilfsfunktion zur eingerückten Textausgabe (Einrückung ist proportional zu level)
 	private void printIndented(String text) {
-		String indentation = "";		
-		for (int i=0; i<=level; i++) { indentation += "  "; }	//* elegantere Lösung finden
-		System.out.println(indentation + text);
+		String indentation = "";
+		
+		for (int i=0; i<=level; i++) { indentation += "  "; }
+		System.out.println(indentation + text);					//*
 	}
     
-//    private static String tokenToString(int token) {		//* im ursprünglichen Beispiel war diese Methode 'static', keine Ahnung warum
+//    private static String tokenToString(int token) {		//*
     private String tokenToString(int token) {
 //		printIndented(">tokenToString(...)");
         if (token == StreamTokenizer.TT_NUMBER) { printIndented(">tokenToString(ZAHL)"); printIndented("<tokenToString='ZAHL'"); return "ZAHL"; }
         else if (token == StreamTokenizer.TT_EOF) { printIndented(">tokenToString(EOF)"); printIndented("<tokenToString='EOF'"); return "EOF"; }
         else if (token == StreamTokenizer.TT_WORD) { printIndented(">tokenToString(WORT)"); printIndented("<tokenToString='WORT'"); return "WORT"; }
-        else { printIndented(">tokenToString(" + token + ")"); printIndented("<tokenToString='" + String.valueOf((char)token) + "'"); return String.valueOf((char)token); } //* Was macht String.valueof() ?
+        else { printIndented(">tokenToString(" + token + ")"); printIndented("<tokenToString='" + String.valueOf((char)token) + "'"); return String.valueOf((char)token); }		//* Return-Wert überdenken und in Variante ändern, die weniger einschränkt
     }
     
     private void next() throws IOException {
@@ -77,7 +78,7 @@ public class Formelparser {
     private void match(int expected) throws IOException {
 		printIndented(">match(" + expected + ")");
         if (lookahead != expected) {
-            throw new IOException("Erwartet: '" + tokenToString(expected) + "', erhalten: '" + tokenToString(lookahead) + "'");    //* Exception auf spezifischere ParseException umbauen
+            throw new IOException("Erwartet: '" + tokenToString(expected) + "', erhalten: '" + tokenToString(lookahead) + "'");    //*
         } else {
             next();
         }
@@ -98,11 +99,7 @@ public class Formelparser {
             next();
             w = parseTerm();
             printIndented("#parseExpr: {" + v + "}{" + (char)op + "}{" + w + "}");
-            if (op == '+') {								//* Stringvergleich überarbeiten
-				v += w;
-			} else if (op == '-') {							//* Stringvergleich überarbeiten
-				v -= w;
-			}
+            v = (op == '+' ? v + w : v - w);
         }
         printIndented("<parseExpr= {" + v + "}"); level -= 1;
         return v;
@@ -128,6 +125,7 @@ public class Formelparser {
 			} else if (op == '%') {
 				v = v % w;
 			}
+            v = (op == '*' ? v * w : v / w);
         }
         printIndented("<parseTerm= {" + v + "}"); level -= 1;
         return v;
@@ -153,26 +151,6 @@ public class Formelparser {
         printIndented("<parseFact= {" + v + "}"); level -= 1;
         return v;
     }	
-
-    /// Pow -> "(" Expr ")" | Number
-    private double parsePow() throws IOException {
-		level += 1; printIndented(">parsePow()");
-        double v = 0.0;
-        
-        if (lookahead == '(') {
-            match('(');
-            v = parseExpr();
-			printIndented("#parsePow: ( {" + v + "} ) ");
-            match(')');
-        } else if (lookahead == StreamTokenizer.TT_NUMBER) {
-			v = tokenizer.nval;						//*
-            next();
-        } else {
-            throw new IOException("Unerwartetes Symbol: " + tokenToString(lookahead));
-        }
-        printIndented("<parsePow= {" + v + "}"); level -= 1;
-        return v;
-    }
 
     public double parse(String s) throws IOException {
 		level += 1; printIndented(">parse(" + s + ")");
@@ -206,12 +184,10 @@ public class Formelparser {
             result = fp.parse(args[0]);
             System.out.println();
             System.out.println(args[0] + "=" + Double.toString(result));
+            System.out.println();
             
         } catch (IOException e1) {
-            System.err.println("!!! Es ist ein Fehler aufgetreten: " + e1.getMessage() + " !!!");
-            //* Hier sollte ein Fehlercode zurückgeben werden
-        } finally {
-			System.out.println();
-		}
+            System.err.println("!!! Es ist ein Fehler aufgetreten: " + e1.getMessage() + " !!!");    //*
+        }
     }
 }
