@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
+import java.lang.Math;
 
 
 /** Formelparser.java - ein Parser zum Auswerten arithmetischer Ausdrücke mittels Recursive-Descent-Parser, der auch rechnet
@@ -30,9 +31,13 @@ import java.io.StringReader;
  *
  * Expr -> Term (("+" | "-") Term)*
  * Term -> Fact (("*" | "/") Fact)*
- * Fact -> "(" Expr ")" | Number
+ * Fact -> ("cos" | "sin" | "tan") Trig | Trig
+ * Trig -> "(" Expr ")" | Number
  *
- * Aufgrund der verwendeten StreamTokenizer- Klasse, müssen Minuszeichen und Zahlen per Leerzeichen voneinander getrennt werden, da dies sonst als negativer Wert interpretiert wird.
+ * Aufgrund der verwendeten StreamTokenizer- Klasse sind Leerzeichen nach einigen Operatoren nötig aber auch Klammern können helfen.
+ * * Minuszeichen vor Zahlen werden ansonsten als deren Vorzeichen angesehen. 
+ * * Operatoren, die aus Buchstaben bestehen, werden sonst nicht richtig ausgewertet.
+ * * Unäre Operatoren (z.B. sin) sollten mit Klammern verwendet werden
  * 
  * ### Legende zur Programmausgabe ###
  * 
@@ -47,7 +52,7 @@ import java.io.StringReader;
 public class Formelparser {
     private int lookahead;									/// Vorschau auf das nächste Token (TT_NUMBER, TT_EOF, TT_WORD)
     private StreamTokenizer tokenizer;						/// Hilfsobjekt zur Aufsplittung der Eingabe in einzelne Token
-    int level = 0;											/// Verschachtelungstiefe für Darstellung
+    int level = 0;											/// Verschachtelungstiefe (für Darstellung)
 
 //    public class ParseException extends Exception {}		//* Funktioniert leider nicht
 
@@ -61,16 +66,16 @@ public class Formelparser {
 //    private static String tokenToString(int token) {		//* im ursprünglichen Beispiel war diese Methode 'static', keine Ahnung warum
     private String tokenToString(int token) {
 //		printIndented(">tokenToString(...)");
-        if (token == StreamTokenizer.TT_NUMBER) { printIndented(">tokenToString(ZAHL)"); printIndented("<tokenToString='ZAHL'"); return "ZAHL"; }
-        else if (token == StreamTokenizer.TT_EOF) { printIndented(">tokenToString(EOF)"); printIndented("<tokenToString='EOF'"); return "EOF"; }
-        else if (token == StreamTokenizer.TT_WORD) { printIndented(">tokenToString(WORT)"); printIndented("<tokenToString='WORT'"); return "WORT"; }
-        else { printIndented(">tokenToString(" + token + ")"); printIndented("<tokenToString='" + String.valueOf((char)token) + "'"); return String.valueOf((char)token); } //* Was macht String.valueof() ?
+        if (token == StreamTokenizer.TT_NUMBER) { /* printIndented(">tokenToString(ZAHL); token={" + tokenizer.nval + "}"); printIndented("<tokenToString='ZAHL'"); */ return "ZAHL ={" + tokenizer.nval + "}"; }
+        else if (token == StreamTokenizer.TT_EOF) { /* printIndented(">tokenToString(EOF)"); printIndented("<tokenToString='EOF'"); */ return "EOF"; }
+        else if (token == StreamTokenizer.TT_WORD) { /* printIndented(">tokenToString(WORT); token={" + tokenizer.sval + "}"); printIndented("<tokenToString='WORT'"); */ return "WORT ={" + tokenizer.sval + "}"; }
+        else { /* printIndented(">tokenToString(" + token + "); token={" + tokenizer.nval + "}"); printIndented("<tokenToString='" + String.valueOf((char)token) + "'"); */ return "SONDERZEICHEN ={" + String.valueOf((char)token) + "}"; }
     }
     
     private void next() throws IOException {
 		level += 0; printIndented(">next()");
         lookahead = tokenizer.nextToken();    // kann sein: TT_EOF (Dateiende), TT_NUMBER (Zahl), TT_WORD (sonstiges)
-        printIndented("<next"); level += 0;
+        printIndented("<next; \tlookahead=" + tokenToString(lookahead)); level += 0;
     }
     
     private void match(int expected) throws IOException {
@@ -97,9 +102,9 @@ public class Formelparser {
             next();
             w = parseTerm();
             printIndented("#parseExpr: {" + v + "}{" + (char)op + "}{" + w + "}");
-            if (op == '+') {								//* Stringvergleich überarbeiten
+            if (op == '+') {
 				v += w;
-			} else if (op == '-') {							//* Stringvergleich überarbeiten
+			} else if (op == '-') {
 				v -= w;
 			}
         }
@@ -120,9 +125,9 @@ public class Formelparser {
             next();
             w = parseTerm();
             printIndented("#parseTerm: {" + v + "}{" + (char)op + "}{" + w + "}");
-            if (op == '*') {								//* Stringvergleich überarbeiten
+            if (op == '*') {
 				v *= w;
-			} else if (op == '/') {							//* Stringvergleich überarbeiten
+			} else if (op == '/') {
 				v /= w;
 			}
         }
@@ -130,23 +135,56 @@ public class Formelparser {
         return v;
     }
 
-    /// Fact -> "(" Expr ")" | Number
+	/// Fact -> ("cos" | "sin" | "tan") Trig | Trig
     private double parseFact() throws IOException {
 		level += 1; printIndented(">parseFact()");
+        double v, w;
+        StringBuffer op = new StringBuffer();
+
+        v = 0;
+		if (lookahead == StreamTokenizer.TT_WORD) {
+//			while (lookahead == StreamTokenizer.TT_WORD) {
+				op.replace(0, 3, tokenizer.sval);
+				if (op.toString().equals("cos") || op.toString().equals("sin") || op.toString().equals("tan")) {
+					printIndented("#parseFact: {" + op.toString() + "}");
+					next();
+					w = parseTrig();
+					printIndented("#parseFact: {" + op + "}{" + w + "}");
+					if (op.toString().equals("cos")) {
+						v = java.lang.Math.cos(w);
+					} else if (op.toString().equals("sin")) {
+						v = java.lang.Math.sin(w);
+					} else if (op.toString().equals("tan")) {
+						v = java.lang.Math.tan(w);
+					}
+				} else {
+					throw new IOException("Unerwartetes Symbol: " + tokenToString(lookahead));
+				}
+//			}
+        } else {
+			v = parseTrig();
+		}
+        printIndented("<parseFact= {" + v + "}"); level -= 1;
+        return v;
+    }
+
+    /// Trig -> "(" Expr ")" | Number
+    private double parseTrig() throws IOException {
+		level += 1; printIndented(">parseTrig()");
         double v = 0.0;
         
         if (lookahead == '(') {
             match('(');
             v = parseExpr();
-			printIndented("#parseFact: ( {" + v + "} ) ");
+			printIndented("#parseTrig: ( {" + v + "} ) ");
             match(')');
         } else if (lookahead == StreamTokenizer.TT_NUMBER) {
-			v = tokenizer.nval;						//*
+			v = tokenizer.nval;
             next();
         } else {
             throw new IOException("Unerwartetes Symbol: " + tokenToString(lookahead));
         }
-        printIndented("<parseFact= {" + v + "}"); level -= 1;
+        printIndented("<parseTrig= {" + v + "}"); level -= 1;
         return v;
     }
     
