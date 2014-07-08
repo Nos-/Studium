@@ -1,4 +1,3 @@
-// import java.util.*;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
@@ -38,119 +37,92 @@ import java.lang.Math;
  * * Minuszeichen vor Zahlen werden ansonsten als deren Vorzeichen angesehen. 
  * * Operatoren, die aus Buchstaben bestehen, werden sonst nicht richtig ausgewertet.
  * 
- * ### Legende zur Programmausgabe ###
- * 
- * Zur besseren Nachvollziehbarkeit des Programmablaufs lasse ich mir einige Debugausgaben anzeigen. Anhand dieser kann man gut die Struktur des entstehenden Parsebaumes erkennen. Hier nun ein (hoffentlich) selbsterklärendes Beispiel:
- * 
- * >Funktionsname(Übergabeparameter); 	lookaheadvariable=Wert
- * 
- * #Funktionsname: {Zwischenergebnis}
- * 
- * <Funktionsname= {Rückgabewert}
  */
 
-/// Die Formelparserklasse
-public class Formelparser {
+/// Die Formelparserklasse in reduzierter Größe
+public class FormelparserMinimal {
     private int lookahead;									///< Vorschau auf Typ des nächsten Tokens
     private StreamTokenizer tokenizer;						///< Hilfsobjekt zur Aufsplittung der Eingabe in einzelne Token
-    private int level;										///< Verschachtelungstiefe (für Darstellung)
     public boolean isValid;									///< Gibt an, ob der zuletzt geparste Ausdruck gültig gewesen ist
     public double parseResult;								///< enthält das Ergebnis des zuletzt geparsten Ausdruckes \sa isValid()
 
 //    public class ParseException extends Exception {}		//* Funktioniert leider nicht
 	
 	/// Initialisiert die Membervariablen
-	public Formelparser() {
-		level = 0;
+	public FormelparserMinimal() {
 		isValid = false;
 		parseResult = 0;
 	}
-	
-	// Hilfsfunktion zur eingerückten Textausgabe (Einrückung ist proportional zu level)
-	private void printIndented(String text) {
-		String indentation = "";		
-		for (int i=0; i<=level; i++) { indentation += "  "; }	//* elegantere Lösung finden
-		System.out.println(indentation + text);
-	}
-    
-	// Hilfsfunktion für Debugausgaben
-//    private static String tokenToString(int token) {		//* im ursprünglichen Beispiel war diese Methode 'static', keine Ahnung warum
+
+	/// Hilfsfunktion für Debugausgaben
     private String tokenToString(int token) {
-//		printIndented(">tokenToString(...)");
-        if (token == StreamTokenizer.TT_NUMBER) { /* printIndented(">tokenToString(ZAHL); token={" + tokenizer.nval + "}"); printIndented("<tokenToString='ZAHL'"); */ return "ZAHL ={" + tokenizer.nval + "}"; }
-        else if (token == StreamTokenizer.TT_EOF) { /* printIndented(">tokenToString(EOF)"); printIndented("<tokenToString='EOF'"); */ return "EOF"; }
-        else if (token == StreamTokenizer.TT_WORD) { /* printIndented(">tokenToString(WORT); token={" + tokenizer.sval + "}"); printIndented("<tokenToString='WORT'"); */ return "WORT ={" + tokenizer.sval + "}"; }
-        else { /* printIndented(">tokenToString(" + token + "); token={" + tokenizer.nval + "}"); printIndented("<tokenToString='" + String.valueOf((char)token) + "'"); */ return "SONDERZEICHEN ={" + String.valueOf((char)token) + "}"; }
+        if (token == StreamTokenizer.TT_NUMBER) { return "ZAHL ={" + tokenizer.nval + "}"; }
+        else if (token == StreamTokenizer.TT_EOF) { return "EOF"; }
+        else if (token == StreamTokenizer.TT_WORD) { return "WORT ={" + tokenizer.sval + "}"; }
+        else { return "SONDERZEICHEN ={" + String.valueOf((char)token) + "}"; }
     }
 
 	/// Liest das nächste Token ein
     private void next() throws IOException {
-		level += 0; printIndented(">next()");
         lookahead = tokenizer.nextToken();    // kann sein: TT_EOF (Dateiende), TT_NUMBER (Zahl), TT_WORD (sonstiges)
-        printIndented("<next; \tlookahead=" + tokenToString(lookahead)); level += 0;
     }
     
 	/// Prüft, ob das nächste Token das erwartete ist
     private void match(int expected) throws IOException {
-		printIndented(">match(" + expected + ")");
         if (lookahead != expected) {
             throw new IOException("Erwartet: '" + tokenToString(expected) + "', erhalten: '" + tokenToString(lookahead) + "'");    //* Exception auf spezifischere ParseException umbauen
         } else {
             next();
         }
-        printIndented("<match");
     }
 
 
     /// Parst die Ableitungsregel: Expr -> Term (("+" | "-") Term)*
     private double parseExpr() throws IOException {
-		level += 1; printIndented(">parseExpr()");
         double v, w;
         int op;
         
+        System.out.print("\n#parseExpr:");
         v = parseTerm();
-        printIndented("#parseExpr: {" + v + "}");
         while ((op = lookahead) == '+' || op == '-') {
-            printIndented("#parseExpr: {" + v + "}{" + (char)op + "}");
             next();
             w = parseTerm();
-            printIndented("#parseExpr: {" + v + "}{" + (char)op + "}{" + w + "}");
+            System.out.print(" " + v + " " + (char)op + " " + w + " ");
             if (op == '+') {
 				v += w;
 			} else if (op == '-') {
 				v -= w;
 			}
+		    System.out.print("= " + v + " ");
         }
-        printIndented("<parseExpr= {" + v + "}"); level -= 1;
+        System.out.println("");
         return v;
     }
     
     /// Parst die Ableitungsregel: Term -> Fact (("*" | "/") Fact)*
     private double parseTerm() throws IOException {
-		level += 1; printIndented(">parseTerm()");
         double v, w;
         int op;
 
+        System.out.print("\n#parseTerm:");
         v = parseFact();
-        printIndented("#parseTerm: {" + v + "}");
         while ((op = lookahead) == '*' || op == '/') {
-            printIndented("#parseTerm: {" + v + "}{" + (char)op + "}");
+//            System.out.print(" " + v + " " + (char)op + " ");
             next();
             w = parseTerm();
-            printIndented("#parseTerm: {" + v + "}{" + (char)op + "}{" + w + "}");
+            System.out.print(" " + v + " " + (char)op + " " + w + " ");
             if (op == '*') {
 				v *= w;
 			} else if (op == '/') {
 				v /= w;
 			}
         }
-        printIndented("<parseTerm= {" + v + "}"); level -= 1;
+        System.out.println("= " + v + " ");
         return v;
     }
 
 	/// Parst die Ableitungsregel: Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
     private double parseFact() throws IOException {
-		level += 1; printIndented(">parseFact()");
         double v, w;
         StringBuffer op = new StringBuffer();
 
@@ -159,10 +131,10 @@ public class Formelparser {
 //			while (lookahead == StreamTokenizer.TT_WORD) {
 				op.replace(0, 3, tokenizer.sval);
 				if (op.toString().equals("cos") || op.toString().equals("sin") || op.toString().equals("tan")) {
-					printIndented("#parseFact: {" + op.toString() + "}");
+					System.out.print("\n#parseFact: ");
 					next();
 					w = parseFact();
-					printIndented("#parseFact: {" + op + "}{" + w + "}");
+					System.out.print(op + " " + w + " ");
 					if (op.toString().equals("cos")) {
 						v = java.lang.Math.cos(w);
 					} else if (op.toString().equals("sin")) {
@@ -177,19 +149,19 @@ public class Formelparser {
         } else {
 			v = parseTrig();
 		}
-        printIndented("<parseFact= {" + v + "}"); level -= 1;
+        System.out.println("= " + v + " "); 
         return v;
     }
 
     /// Parst die Ableitungsregel: Trig -> "(" Expr ")" | Number
     private double parseTrig() throws IOException {
-		level += 1; printIndented(">parseTrig()");
         double v = 0.0;
-        
+
+		System.out.print("\n#parseTrig: ");        
         if (lookahead == '(') {
             match('(');
             v = parseExpr();
-			printIndented("#parseTrig: ( {" + v + "} ) ");
+			System.out.print(" ( " + v + " ) ");
             match(')');
         } else if (lookahead == StreamTokenizer.TT_NUMBER) {
 			v = tokenizer.nval;
@@ -197,13 +169,13 @@ public class Formelparser {
         } else {
             throw new IOException("Unerwartetes Symbol: " + tokenToString(lookahead));
         }
-        printIndented("<parseTrig= {" + v + "}"); level -= 1;
+        System.out.println("=" + v + " ");
         return v;
     }
     
     /// Parst übergebenen Ausdruck und gibt dessen Ergebnis zurrück
     public double parse(String s) throws IOException {
-		level += 1; printIndented(">parse(" + s + ")");
+		System.out.println("parse(" + s + ")");
 		double v;
         StringReader r = new StringReader(s);
         tokenizer = new StreamTokenizer(r);
@@ -216,18 +188,17 @@ public class Formelparser {
 			parseResult = 0;
             throw new IOException("Unerwartetes Symbol '" + (char)lookahead + "'");
         } else {
-            printIndented("Der arithmetische Ausdruck ist in Ordnung und ergibt: " + v);
+//            System.out.print("\nDer arithmetische Ausdruck ist in Ordnung und ergibt: " + v);
             isValid=true;
             parseResult=v;
         }
-        printIndented("<parse= {" + v + "}"); level -= 1; 
         return v;
     }
 
 	/// Ruft Parse() mit den Kommandozeilenparametern auf und meldet aufgetretene Fehler.
     public static void main (String args[]) throws IOException {
-        Formelparser fp = new Formelparser();
-//        double result;
+        FormelparserMinimal fp = new FormelparserMinimal();
+        double result;
         
         if (args.length < 1) {
             System.err.println("Verwendung: java Formelparser\"<Ausdruck>\"");
@@ -237,7 +208,9 @@ public class Formelparser {
         
         try {
             System.out.println();
-            System.out.println(args[0] + "=" + Double.toString(fp.parse(args[0])));
+            result = fp.parse(args[0]);
+            System.out.println();
+            System.out.println(args[0] + " = " + Double.toString(result));
             
         } catch (IOException e1) {
             System.err.println("!!! Es ist ein Fehler aufgetreten: " + e1.getMessage() + " !!!");
