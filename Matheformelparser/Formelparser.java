@@ -31,13 +31,12 @@ import java.lang.Math;
  *
  * Expr -> Term (("+" | "-") Term)*
  * Term -> Fact (("*" | "/") Fact)*
- * Fact -> ("cos" | "sin" | "tan") Trig | Trig
+ * Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
  * Trig -> "(" Expr ")" | Number
  *
  * Aufgrund der verwendeten StreamTokenizer- Klasse sind Leerzeichen nach einigen Operatoren nötig aber auch Klammern können helfen.
  * * Minuszeichen vor Zahlen werden ansonsten als deren Vorzeichen angesehen. 
  * * Operatoren, die aus Buchstaben bestehen, werden sonst nicht richtig ausgewertet.
- * * Unäre Operatoren (z.B. sin) sollten mit Klammern verwendet werden
  * 
  * ### Legende zur Programmausgabe ###
  * 
@@ -135,7 +134,7 @@ public class Formelparser {
         return v;
     }
 
-	/// Fact -> ("cos" | "sin" | "tan") Trig | Trig
+	/// Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
     private double parseFact() throws IOException {
 		level += 1; printIndented(">parseFact()");
         double v, w;
@@ -148,7 +147,7 @@ public class Formelparser {
 				if (op.toString().equals("cos") || op.toString().equals("sin") || op.toString().equals("tan")) {
 					printIndented("#parseFact: {" + op.toString() + "}");
 					next();
-					w = parseTrig();
+					w = parseFact();
 					printIndented("#parseFact: {" + op + "}{" + w + "}");
 					if (op.toString().equals("cos")) {
 						v = java.lang.Math.cos(w);
