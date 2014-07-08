@@ -29,10 +29,10 @@ import java.lang.Math;
  *
  * Der gegebene Ausdruck wird mittels folgender Grammatik geparst:
  *
- * Expr -> Term (("+" | "-") Term)*
- * Term -> Fact (("*" | "/") Fact)*
- * Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
- * Trig -> "(" Expr ")" | Number
+ * 1. Expr -> Term (("+" | "-") Term)*
+ * 2. Term -> Fact (("*" | "/") Fact)*
+ * 3. Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
+ * 4. Trig -> "(" Expr ")" | Number
  *
  * Aufgrund der verwendeten StreamTokenizer- Klasse sind Leerzeichen nach einigen Operatoren nötig aber auch Klammern können helfen.
  * * Minuszeichen vor Zahlen werden ansonsten als deren Vorzeichen angesehen. 
@@ -42,26 +42,38 @@ import java.lang.Math;
  * 
  * Zur besseren Nachvollziehbarkeit des Programmablaufs lasse ich mir einige Debugausgaben anzeigen. Anhand dieser kann man gut die Struktur des entstehenden Parsebaumes erkennen. Hier nun ein (hoffentlich) selbsterklärendes Beispiel:
  * 
- * >Funktionsname(Übergabeparameter)
+ * >Funktionsname(Übergabeparameter); 	lookaheadvariable=Wert
+ * 
  * #Funktionsname: {Zwischenergebnis}
+ * 
  * <Funktionsname= {Rückgabewert}
  */
 
-
+/// Die Formelparserklasse
 public class Formelparser {
-    private int lookahead;									/// Vorschau auf das nächste Token (TT_NUMBER, TT_EOF, TT_WORD)
-    private StreamTokenizer tokenizer;						/// Hilfsobjekt zur Aufsplittung der Eingabe in einzelne Token
-    int level = 0;											/// Verschachtelungstiefe (für Darstellung)
+    private int lookahead;									///< Vorschau auf Typ des nächsten Tokens
+    private StreamTokenizer tokenizer;						///< Hilfsobjekt zur Aufsplittung der Eingabe in einzelne Token
+    private int level;										///< Verschachtelungstiefe (für Darstellung)
+    public boolean isValid;									///< Gibt an, ob der zuletzt geparste Ausdruck gültig gewesen ist
+    public double parseResult;									///< enthält das Ergebnis des zuletzt geparsten Ausdruckes \sa isValid()
 
 //    public class ParseException extends Exception {}		//* Funktioniert leider nicht
-
-	/// Hilfsfunktion zur eingerückten Textausgabe (Einrückung ist proportional zu level)
+	
+	/// Initialisiert die Membervariablen
+	public Formelparser() {
+		level = 0;
+		isValid = false;
+		parseResult = 0;
+	}
+	
+	// Hilfsfunktion zur eingerückten Textausgabe (Einrückung ist proportional zu level)
 	private void printIndented(String text) {
 		String indentation = "";		
 		for (int i=0; i<=level; i++) { indentation += "  "; }	//* elegantere Lösung finden
 		System.out.println(indentation + text);
 	}
     
+	// Hilfsfunktion für Debugausgaben
 //    private static String tokenToString(int token) {		//* im ursprünglichen Beispiel war diese Methode 'static', keine Ahnung warum
     private String tokenToString(int token) {
 //		printIndented(">tokenToString(...)");
@@ -70,13 +82,15 @@ public class Formelparser {
         else if (token == StreamTokenizer.TT_WORD) { /* printIndented(">tokenToString(WORT); token={" + tokenizer.sval + "}"); printIndented("<tokenToString='WORT'"); */ return "WORT ={" + tokenizer.sval + "}"; }
         else { /* printIndented(">tokenToString(" + token + "); token={" + tokenizer.nval + "}"); printIndented("<tokenToString='" + String.valueOf((char)token) + "'"); */ return "SONDERZEICHEN ={" + String.valueOf((char)token) + "}"; }
     }
-    
+
+	/// Liest das nächste Token ein
     private void next() throws IOException {
 		level += 0; printIndented(">next()");
         lookahead = tokenizer.nextToken();    // kann sein: TT_EOF (Dateiende), TT_NUMBER (Zahl), TT_WORD (sonstiges)
         printIndented("<next; \tlookahead=" + tokenToString(lookahead)); level += 0;
     }
     
+	/// Prüft, ob das nächste Token das erwartete ist
     private void match(int expected) throws IOException {
 		printIndented(">match(" + expected + ")");
         if (lookahead != expected) {
@@ -88,7 +102,7 @@ public class Formelparser {
     }
 
 
-    /// Expr -> Term (("+" | "-") Term)*
+    /// Parst die Ableitungsregel: Expr -> Term (("+" | "-") Term)*
     private double parseExpr() throws IOException {
 		level += 1; printIndented(">parseExpr()");
         double v, w;
@@ -111,7 +125,7 @@ public class Formelparser {
         return v;
     }
     
-    /// Term -> Fact (("*" | "/") Fact)*
+    /// Parst die Ableitungsregel: Term -> Fact (("*" | "/") Fact)*
     private double parseTerm() throws IOException {
 		level += 1; printIndented(">parseTerm()");
         double v, w;
@@ -134,7 +148,7 @@ public class Formelparser {
         return v;
     }
 
-	/// Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
+	/// Parst die Ableitungsregel: Fact -> (("cos" | "sin" | "tan") Trig)* | Trig
     private double parseFact() throws IOException {
 		level += 1; printIndented(">parseFact()");
         double v, w;
@@ -167,7 +181,7 @@ public class Formelparser {
         return v;
     }
 
-    /// Trig -> "(" Expr ")" | Number
+    /// Parst die Ableitungsregel: Trig -> "(" Expr ")" | Number
     private double parseTrig() throws IOException {
 		level += 1; printIndented(">parseTrig()");
         double v = 0.0;
@@ -187,6 +201,7 @@ public class Formelparser {
         return v;
     }
     
+    /// Parst übergebenen Ausdruck und gibt dessen Ergebnis zurrück
     public double parse(String s) throws IOException {
 		level += 1; printIndented(">parse(" + s + ")");
 		double v;
@@ -197,33 +212,38 @@ public class Formelparser {
         next();
         v = parseExpr();
         if (lookahead != StreamTokenizer.TT_EOF) {
+			isValid=false;
+			parseResult = 0;
             throw new IOException("Unerwartetes Symbol '" + (char)lookahead + "'");
         } else {
             printIndented("Der arithmetische Ausdruck ist in Ordnung und ergibt: " + v);
+            isValid=true;
+            parseResult=v;
         }
         printIndented("<parse= {" + v + "}"); level -= 1; 
         return v;
     }
 
-    
+	/// Ruft Parse() mit den Kommandozeilenparametern auf und meldet aufgetretene Fehler.
     public static void main (String args[]) throws IOException {
         Formelparser fp = new Formelparser();
-        double result;
+//        double result;
         
         if (args.length < 1) {
             System.err.println("Verwendung: java Formelparser\"<Ausdruck>\"");
+            System.err.println("Unterstützte Rechenoperationen: + - * / cos() sin() tan() einschließlich Klammern '()'.");
             return;											//* Hier sollte ein Fehlercode zurückgeben werden
         }
         
         try {
-            result = fp.parse(args[0]);
             System.out.println();
-            System.out.println(args[0] + "=" + Double.toString(result));
+            System.out.println(args[0] + "=" + Double.toString(fp.parse(args[0])));
             
         } catch (IOException e1) {
             System.err.println("!!! Es ist ein Fehler aufgetreten: " + e1.getMessage() + " !!!");
             //* Hier sollte ein Fehlercode zurückgeben werden
         } finally {
+//            System.out.println(args[0] + "=" + fp.parseResult + "; gültig: "+ fp.isValid);
 			System.out.println();
 		}
     }
