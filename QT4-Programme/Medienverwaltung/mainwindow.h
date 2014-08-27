@@ -44,23 +44,71 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
-#include <QtGui>
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-#include "mainwindow.h"
+#include <QMainWindow>
+#include "mylistmodelwidget/mylistmodelwidget.h"
 
-int main(int argc, char *argv[])
+class QAction;
+class QMenu;
+class QPlainTextEdit;
+
+class MainWindow : public QMainWindow
 {
-    Q_INIT_RESOURCE(medienverwaltung);
+    Q_OBJECT
 
-    QApplication app(argc, argv);
-    app.setOrganizationName("Nos-");
-    app.setApplicationName("Medienverwaltung");
-    MainWindow mainWin;
-#if defined(Q_OS_SYMBIAN)
-    mainWin.showMaximized();
-#else
-    mainWin.show();
-#endif
-    return app.exec();
-}
+public:
+    MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
+private slots:
+//    void newFile();
+    void open();
+    bool save();
+    bool saveAs();
+    void about();
+//    void documentWasModified();
+
+private:
+    void createActions();
+    void createMenus();
+    void createToolBars();
+    void createStatusBar();
+    void readSettings();
+    void writeSettings();
+    bool maybeSave();
+    void loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
+    QString strippedName(const QString &fullFileName);
+    void addItem(QAbstractItemModel *model, const QString &mediumId, const QString &mediumLabel, const QString &mediumType, const QString &mediumLentTo, const QString &mediumNotes);
+
+//    QPlainTextEdit *textEdit;
+    QString curFile;
+
+    QMenu *fileMenu;
+    QMenu *editMenu;
+    QMenu *helpMenu;
+    QToolBar *fileToolBar;
+    QToolBar *editToolBar;
+    QAction *newAct;
+    QAction *openAct;
+    QAction *saveAct;
+    QAction *saveAsAct;
+    QAction *exitAct;
+    QAction *cutAct;
+    QAction *copyAct;
+    QAction *pasteAct;
+    QAction *aboutAct;
+    QAction *aboutQtAct;
+
+    QAbstractItemModel *myListModel;
+    MyListModelWidget *myListModelWidget;
+    QAbstractItemModel* createModel(QObject *parent);     //*   *createModel(QObject *parent)
+};
+
+
+#endif // MAINWINDOW_H

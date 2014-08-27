@@ -44,23 +44,68 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
-#include <QtGui>
+#ifndef MYLISTMODELWIDGET_H
+#define MYLISTMODELWIDGET_H
 
-#include "mainwindow.h"
+#include <QWidget>
 
-int main(int argc, char *argv[])
+QT_BEGIN_NAMESPACE
+class QAbstractItemModel;
+class QCheckBox;
+class QComboBox;
+class QGroupBox;
+class QLabel;
+class QLineEdit;
+class QSortFilterProxyModel;
+class QTreeView;
+class QPushButton;
+QT_END_NAMESPACE
+
+class MyListModelWidget : public QWidget
 {
-    Q_INIT_RESOURCE(medienverwaltung);
+    Q_OBJECT
 
-    QApplication app(argc, argv);
-    app.setOrganizationName("Nos-");
-    app.setApplicationName("Medienverwaltung");
-    MainWindow mainWin;
-#if defined(Q_OS_SYMBIAN)
-    mainWin.showMaximized();
+public:
+    MyListModelWidget();
+
+    void setSourceModel(QAbstractItemModel *model);
+//    QVariant getModelColumnHeaderData();              //*
+
+private slots:
+    void filterRegExpChanged();
+    void filterColumnChanged();
+    void sortChanged();
+    void addItem();
+    void delItem();
+    void headerDataChanged( Qt::Orientation orientation, int first, int last );
+
+private:
+    QSortFilterProxyModel *proxyModel;
+
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_SIMULATOR)
+//*    QWidget *sourceWidget;
+    QWidget *filterWidget;
+    QWidget *proxyWidget;
 #else
-    mainWin.show();
+//*    QGroupBox *sourceGroupBox;
+public:
+    QGroupBox *proxyGroupBox;
+private:
 #endif
-    return app.exec();
-}
+//*    QTreeView *sourceView;
+    QTreeView *proxyView;
+    QCheckBox *filterCaseSensitivityCheckBox;
+    QLabel *filterPatternLabel;
+    QLabel *filterSyntaxLabel;
+    QLabel *filterColumnLabel;
+    QLineEdit *filterPatternLineEdit;
+    QComboBox *filterSyntaxComboBox;
+    QComboBox *filterColumnComboBox;
+
+    QPushButton *addItemBtn;
+    QPushButton *delItemBtn;
+
+    void refreshFilterColumnComboBox();
+};
+
+#endif      // MYLISTMODELWIDGET_H

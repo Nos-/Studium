@@ -6,9 +6,13 @@ TARGET = medienverwaltung
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        window.cpp
+SOURCES += main.cpp \
+    mylistmodelwidget/mylistmodelwidget.cpp \
+    mainwindow.cpp
 
-HEADERS  += window.h
+HEADERS  += \
+    mylistmodelwidget/mylistmodelwidget.h \
+    mainwindow.h
 
-RESOURCES += window.qrc
+RESOURCES += \
+    medienverwaltung.qrc
