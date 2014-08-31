@@ -48,73 +48,45 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "MediaListmodelWidget/MediaListmodelWidget.h"
-#include "PersonListmodelWidget/PersonListmodelWidget.h"
+#include <QModelIndex>
+
+#include "mediaWidget.h"
 
 class QAction;
-class QMenu;
-class QPlainTextEdit;
+class QTreeView;
+class QWidget;
+class QSplitter;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow();
+    MainWindow(QWidget *parent = 0);
 
-protected:
-    void closeEvent(QCloseEvent *event);
-
-private slots:
-//    void newFile();
-    void open();
-    bool save();
-    bool saveAs();
-    void about();
-//    void documentWasModified();
+public slots:
+//*     void updateActions();
 
 private:
-    void createActions();
-    void createMenus();
-    void createToolBars();
-    void createStatusBar();
-    void readSettings();
-    void writeSettings();
-    bool maybeSave();
-    void loadFile(const QString &fileName);
-    bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
-    void addMediaItem(QAbstractItemModel *model, const QString &mediumId, const QString &mediumLabel, const QString &mediumType, const QString &mediumLentTo, const QString &mediumNotes);
-    void addPersonItem(QAbstractItemModel *model, const QString &personId, const QString &firstName, const QString &surName, const QString &salutation, const QString &email, const QString &notes);
+    MediaWidget *mediaWidget;
+    QSplitter *splitter;
 
-//    QPlainTextEdit *textEdit;
-    QString curFile;
+    QAction *exitAction;
+    QAction *aboutQtAction;
+    QAction *aboutAction;
 
     QMenu *fileMenu;
-    QMenu *editMenu;
     QMenu *helpMenu;
+
     QToolBar *fileToolBar;
-    QToolBar *editToolBar;
-    QAction *newAct;
-    QAction *openAct;
-    QAction *saveAct;
-    QAction *saveAsAct;
-    QAction *exitAct;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-    QAction *aboutAct;
-    QAction *aboutQtAct;
 
-    QAbstractItemModel *mediaListModel;
-    QAbstractItemModel *personListModel;
-    MediaListmodelWidget *mediaListmodelWidget;
-    PersonListmodelWidget *personListmodelWidget;
-    QAbstractItemModel* createMediaModel(QObject *parent);
-    QAbstractItemModel* createPersonModel(QObject *parent);
+    void createActions();
+    void createToolBars();
+    void createStatusBar();
+    void createMenus();
 
+private slots:
+    void about();
 };
 
-
-#endif // MAINWINDOW_H
+#endif

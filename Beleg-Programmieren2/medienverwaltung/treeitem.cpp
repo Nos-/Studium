@@ -44,74 +44,120 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
+/*
+    treeitem.cpp
 
-#include "mainwindow.h"
-#include "treemodel.h"
+    A container for items of data supplied by the simple tree model.
+*/
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+#include <QStringList>
+
+#include "treeitem.h"
+
+
+TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
 {
-    setWindowTitle(trUtf8("Medienverwaltung"));
-    splitter = new QSplitter(this);
-    setCentralWidget(splitter);
-
-    mediaWidget = new MediaWidget;
-    splitter->addWidget(mediaWidget);
-
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
+    parentItem = parent;
+    itemData = data;
 }
 
-void MainWindow::createActions()
+
+TreeItem::~TreeItem()
 {
-    exitAction = new QAction(trUtf8("B&eenden"), this);
-    exitAction->setShortcuts(QKeySequence::Quit);
-    exitAction->setStatusTip(trUtf8("Beendet das Programm"));
-    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-
-    aboutAction = new QAction(trUtf8("&Über dieses Programm"), this);
-    aboutAction->setStatusTip(trUtf8("Zeigt das Infofenster dieses Programmes an"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAction = new QAction(trUtf8("Über &Qt"), this);
-    aboutQtAction->setStatusTip(trUtf8("Zeigt das Infofenster der QT-Bibliotheken an"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    qDeleteAll(childItems);
 }
 
-void MainWindow::about()
+TreeItem *TreeItem::child(int number)
 {
-   QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner (Norman Schwirz) ersten QT4-Applikationen."));
+    return childItems.value(number);
 }
 
-void MainWindow::createStatusBar()
+int TreeItem::childCount() const
 {
-    statusBar()->showMessage(trUtf8("Bereit"));
+    return childItems.count();
 }
 
-void MainWindow::createMenus()
+int TreeItem::childNumber() const
 {
-    fileMenu = menuBar()->addMenu(trUtf8("&Datei"));
-//    fileMenu->addAction(openAct);
-//    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(saveAsAct);
-//    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
+    if (parentItem)
+        return parentItem->childItems.indexOf(const_cast<TreeItem*>(this));
 
-    menuBar()->addSeparator();
-
-    helpMenu = menuBar()->addMenu(trUtf8("&Hilfe"));
-    helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
+    return 0;
 }
 
-void MainWindow::createToolBars()
+int TreeItem::columnCount() const
 {
-    fileToolBar = addToolBar(trUtf8("Datei"));
-//    fileToolBar->addAction(openAct);
-//    fileToolBar->addAction(saveAct);
-    fileToolBar->addAction(exitAction);
+    return itemData.count();
+}
+
+QVariant TreeItem::data(int column) const
+{
+    return itemData.value(column);
+}
+
+bool TreeItem::insertChildren(int position, int count, int columns)
+{
+    if (position < 0 || position > childItems.size())
+        return false;
+
+    for (int row = 0; row < count; ++row) {
+        QVector<QVariant> data(columns);
+        TreeItem *item = new TreeItem(data, this);
+        childItems.insert(position, item);
+    }
+
+    return true;
+}
+
+bool TreeItem::insertColumns(int position, int columns)
+{
+    if (position < 0 || position > itemData.size())
+        return false;
+
+    for (int column = 0; column < columns; ++column)
+        itemData.insert(position, QVariant());
+
+    foreach (TreeItem *child, childItems)
+        child->insertColumns(position, columns);
+
+    return true;
+}
+
+TreeItem *TreeItem::parent()
+{
+    return parentItem;
+}
+
+bool TreeItem::removeChildren(int position, int count)
+{
+    if (position < 0 || position + count > childItems.size())
+        return false;
+
+    for (int row = 0; row < count; ++row)
+        delete childItems.takeAt(position);
+
+    return true;
+}
+
+bool TreeItem::removeColumns(int position, int columns)
+{
+    if (position < 0 || position + columns > itemData.size())
+        return false;
+
+    for (int column = 0; column < columns; ++column)
+        itemData.remove(position);
+
+    foreach (TreeItem *child, childItems)
+        child->removeColumns(position, columns);
+
+    return true;
+}
+
+bool TreeItem::setData(int column, const QVariant &value)
+{
+    if (column < 0 || column >= itemData.size())
+        return false;
+
+    itemData[column] = value;
+    return true;
 }

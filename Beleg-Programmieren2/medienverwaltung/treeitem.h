@@ -44,74 +44,35 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
+#ifndef TREEITEM_H
+#define TREEITEM_H
 
-#include "mainwindow.h"
-#include "treemodel.h"
+#include <QList>
+#include <QVariant>
+#include <QVector>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+class TreeItem
 {
-    setWindowTitle(trUtf8("Medienverwaltung"));
-    splitter = new QSplitter(this);
-    setCentralWidget(splitter);
+public:
+    TreeItem(const QVector<QVariant> &data, TreeItem *parent = 0);
+    ~TreeItem();
 
-    mediaWidget = new MediaWidget;
-    splitter->addWidget(mediaWidget);
+    TreeItem *child(int number);
+    int childCount() const;
+    int columnCount() const;
+    QVariant data(int column) const;
+    bool insertChildren(int position, int count, int columns);
+    bool insertColumns(int position, int columns);
+    TreeItem *parent();
+    bool removeChildren(int position, int count);
+    bool removeColumns(int position, int columns);
+    int childNumber() const;
+    bool setData(int column, const QVariant &value);
 
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
-}
+private:
+    QList<TreeItem*> childItems;
+    QVector<QVariant> itemData;
+    TreeItem *parentItem;
+};
 
-void MainWindow::createActions()
-{
-    exitAction = new QAction(trUtf8("B&eenden"), this);
-    exitAction->setShortcuts(QKeySequence::Quit);
-    exitAction->setStatusTip(trUtf8("Beendet das Programm"));
-    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-
-    aboutAction = new QAction(trUtf8("&Über dieses Programm"), this);
-    aboutAction->setStatusTip(trUtf8("Zeigt das Infofenster dieses Programmes an"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAction = new QAction(trUtf8("Über &Qt"), this);
-    aboutQtAction->setStatusTip(trUtf8("Zeigt das Infofenster der QT-Bibliotheken an"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-}
-
-void MainWindow::about()
-{
-   QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner (Norman Schwirz) ersten QT4-Applikationen."));
-}
-
-void MainWindow::createStatusBar()
-{
-    statusBar()->showMessage(trUtf8("Bereit"));
-}
-
-void MainWindow::createMenus()
-{
-    fileMenu = menuBar()->addMenu(trUtf8("&Datei"));
-//    fileMenu->addAction(openAct);
-//    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(saveAsAct);
-//    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
-
-    menuBar()->addSeparator();
-
-    helpMenu = menuBar()->addMenu(trUtf8("&Hilfe"));
-    helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
-}
-
-void MainWindow::createToolBars()
-{
-    fileToolBar = addToolBar(trUtf8("Datei"));
-//    fileToolBar->addAction(openAct);
-//    fileToolBar->addAction(saveAct);
-    fileToolBar->addAction(exitAction);
-}
+#endif
