@@ -55,6 +55,8 @@
 #include <QGridLayout>
 #include <QMenu>
 
+#include "treemodel.h"
+
 class QAction;
 class QTreeView;
 class QWidget;
@@ -96,6 +98,7 @@ private:
     void createToolBars();
     void createActions();
     void createMediaTypeView();
+    TreeModel * loadFile();
 
 private slots:
 };

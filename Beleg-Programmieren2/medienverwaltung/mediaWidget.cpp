@@ -71,13 +71,7 @@ MediaWidget::MediaWidget(QWidget *parent)
     mediaView->setAlternatingRowColors(false);
 #endif
 
-    QStringList headers;
-    headers << tr("Title") << tr("Description");
-
-    QFile file(":/default.txt");
-    file.open(QIODevice::ReadOnly);
-    TreeModel *model = new TreeModel(headers, file.readAll());
-    file.close();
+    TreeModel *model = loadFile();
 
     mediaView->setModel(model);
     for (int column = 0; column < model->columnCount(); ++column) {
@@ -105,6 +99,25 @@ MediaWidget::MediaWidget(QWidget *parent)
 
 }
 
+
+TreeModel * MediaWidget::loadFile()
+{
+    QStringList headers;
+    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+    //*    QFile file(":/default.txt");
+    QString fileName = QFileDialog::getOpenFileName(this,trUtf8("Medienverwaltungsdatei öffnen"));
+
+    TreeModel *model;
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        file.open(QIODevice::ReadOnly);
+        model = new TreeModel(headers, file.readAll());
+        file.close();
+    } else {
+        model = new TreeModel(headers, "[Keine Medien enthalten]");
+    }
+    return model;
+}
 
 void MediaWidget::createMediaTypeView()
 {
