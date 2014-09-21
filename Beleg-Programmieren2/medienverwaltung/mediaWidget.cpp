@@ -188,14 +188,21 @@ void MediaWidget::insertChild(QModelIndex index)
 
 bool MediaWidget::insertColumn(const QModelIndex &parent)
 {
+    bool ok;
     QAbstractItemModel *model = mediaView->model();
     int column = mediaView->selectionModel()->currentIndex().column();
 
     // Insert a column in the parent item.
     bool changed = model->insertColumn(column + 1, parent);
-    if (changed)
-        model->setHeaderData(column + 1, Qt::Horizontal, QVariant(trUtf8("[No header]")),
-                             Qt::EditRole);
+    if (changed) {
+        QString colName = tr("Spalte %1").arg(column + 1);
+        QString columnName = QInputDialog::getText(this, trUtf8("Neue Spalte anlegen"),
+                                             trUtf8("Spaltenname"), QLineEdit::Normal, colName, &ok);
+        if (ok)
+            model->setHeaderData(column + 1, Qt::Horizontal, QVariant(columnName), Qt::EditRole);
+        else
+            model->setHeaderData(column + 1, Qt::Horizontal, QVariant(colName), Qt::EditRole);
+    }
 
     updateActions();
 
@@ -248,6 +255,7 @@ void MediaWidget::updateActions()
     bool hasCurrent = mediaView->selectionModel()->currentIndex().isValid();
     insertRowAction->setEnabled(hasCurrent);
     insertColumnAction->setEnabled(hasCurrent);
+    insertChildAction->setEnabled(hasCurrent);
 
     if (hasCurrent) {
         mediaView->closePersistentEditor(mediaView->selectionModel()->currentIndex());
