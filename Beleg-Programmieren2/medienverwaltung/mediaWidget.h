@@ -85,6 +85,7 @@ public slots:
     void insertRow();
     bool removeColumn(const QModelIndex &parent = QModelIndex());
     void removeRow();
+    void resizeColumnWidth(int column);
 
 private:
     QTreeView   *mediaView;

@@ -84,7 +84,7 @@ void MainWindow::createActions()
 void MainWindow::about()
 {
    QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner (Norman Schwirz) ersten QT4-Applikationen."));
+            trUtf8("Die <b>Medienverwaltung</b> ist eine meinerersten QT4-Applikationen.\n Autor: Norman Schwirz"));
 }
 
 void MainWindow::createStatusBar()
@@ -110,8 +110,9 @@ void MainWindow::createMenus()
 
 void MainWindow::createToolBars()
 {
-    fileToolBar = addToolBar(trUtf8("Datei"));
+    MainToolBar = addToolBar(trUtf8("Haupt&werkzeugleiste"));
 //    fileToolBar->addAction(openAct);
 //    fileToolBar->addAction(saveAct);
-    fileToolBar->addAction(exitAction);
+    MainToolBar->addAction(exitAction);
+    MainToolBar->addAction(aboutAction);
 }

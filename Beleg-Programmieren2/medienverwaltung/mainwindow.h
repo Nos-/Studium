@@ -78,7 +78,7 @@ private:
     QMenu *fileMenu;
     QMenu *helpMenu;
 
-    QToolBar *fileToolBar;
+    QToolBar *MainToolBar;
 
     void createActions();
     void createToolBars();

@@ -75,7 +75,7 @@ MediaWidget::MediaWidget(QWidget *parent)
 
     mediaView->setModel(model);
     for (int column = 0; column < model->columnCount(); ++column) {
-        mediaView->resizeColumnToContents(column);
+        resizeColumnWidth(column);
         if (mediaView->columnWidth(column) < 50 ) mediaView->setColumnWidth(column, 50);
     }
     mediaView->setColumnWidth(0, 200);
@@ -134,25 +134,25 @@ void MediaWidget::createMediaTypeView()
 
 void MediaWidget::createActions()
 {
-    insertRowAction = new QAction(trUtf8("Neuen &Medientyp anlegen"), this);
-    insertRowAction->setStatusTip(trUtf8("Legt einen neuen Medientyp an"));
+    insertRowAction = new QAction(trUtf8("&Neuen Eintrag anlegen"), this);
+    insertRowAction->setStatusTip(trUtf8("Legt einen neuen Eintrag an (der in selben Ebene wie der markierte liegt)"));
     connect(insertRowAction, SIGNAL(triggered()), this, SLOT(insertRow()));
 
+    insertChildAction = new QAction(trUtf8("&Untereintrag anlegen"), this);
+    insertChildAction->setStatusTip(trUtf8("Legt einen neuen Untereintrag an"));
+    connect(insertChildAction, SIGNAL(triggered()), this, SLOT(insertChild()));
+
     insertColumnAction = new QAction(trUtf8("&Spalte einfügen"), this);
-    insertColumnAction->setStatusTip(trUtf8("Fügt eine neue Eigenschaftenspalte ein"));
+    insertColumnAction->setStatusTip(trUtf8("Fügt eine neue Eigenschaftenspalte rechts neben der aktuellen ein"));
     connect(insertColumnAction, SIGNAL(triggered()), this, SLOT(insertColumn()));
 
-    removeRowAction = new QAction(trUtf8("Eintrag &entfernen"), this);
-    removeRowAction->setStatusTip(trUtf8("Entfernt das aktuelle Medium bzw. den Medientyp"));
+    removeRowAction = new QAction(trUtf8("Einträg(e) &entfernen"), this);
+    removeRowAction->setStatusTip(trUtf8("Entfernt den aktuell markierten Eintrag samt seiner Untereinträge"));
     connect(removeRowAction, SIGNAL(triggered()), this, SLOT(removeRow()));
 
     removeColumnAction = new QAction(trUtf8("Spalte en&tfernen"), this);
     removeColumnAction->setStatusTip(trUtf8("Entfernt die aktuelle Eigenschaftenspalte"));
     connect(removeColumnAction, SIGNAL(triggered()), this, SLOT(removeColumn()));
-
-    insertChildAction = new QAction(trUtf8("&Untereintrag einfügen"), this);
-    insertChildAction->setStatusTip(trUtf8("Fügt einen neuen Untereintrag ein"));
-    connect(insertChildAction, SIGNAL(triggered()), this, SLOT(insertChild()));
 }
 
 void MediaWidget::insertChild()
@@ -223,7 +223,6 @@ bool MediaWidget::removeColumn(const QModelIndex &parent)
     QAbstractItemModel *model = mediaView->model();
     int column = mediaView->selectionModel()->currentIndex().column();
 
-    // Insert columns in each child of the parent item.
     bool changed = model->removeColumn(column, parent);
 
     if (!parent.isValid() && changed)
@@ -266,10 +265,16 @@ void MediaWidget::updateActions()
 void MediaWidget::createToolBars()
 {
     toolBar = new QToolBar("Einträge bearbeiten");
-//    toolBar->addAction(insertRowAction);
-    toolBar->addAction(insertColumnAction);
+    toolBar->addAction(insertRowAction);
+    toolBar->addAction(insertChildAction);
     toolBar->addAction(removeRowAction);
+    toolBar->addSeparator();
+    toolBar->addAction(insertColumnAction);
     toolBar->addAction(removeColumnAction);
-//    toolBar->addAction(insertChildAction);
 //    toolBar->addSeparator();
+}
+
+void MediaWidget::resizeColumnWidth(int column)
+{
+    mediaView->resizeColumnToContents(column);
 }
