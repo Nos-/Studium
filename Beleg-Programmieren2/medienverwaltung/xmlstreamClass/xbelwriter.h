@@ -1,15 +1,9 @@
 /****************************************************************************
-** \brief Dies ist ein Medienverwaltungsprogramm // This is an mediamanagementapplication
-**
-** \Author Norman Schwirz <nospam.schwirz AT freenet PUNKT de> (Bitte die großgeschriebenen Wörter in der Emailadr. entspr. ersetzen!)
-**
-** \License GPLv3
-** Kurz umrissen heist dies vor allem: Dies ist Freie Software, mach damit was du willst, solange du immer den Quellcode des kompletten Programms (inklusive der Autorenangabe und dieser Lizenzinfo) mitlieferst. Außerdem muss im Programm selbst bzw. dessen Dokumentation darauf hingewiesen werden.
 **
 ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
-** This file is originally based of an example of the Qt Toolkit and adopted by me (N. Schwirz) to my needs.
+** This file is part of the examples of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** You may use this file under the terms of the BSD license as follows:
@@ -44,51 +38,33 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef XBELWRITER_H
+#define XBELWRITER_H
 
-#include <QMainWindow>
+#include <QXmlStreamWriter>
+#include <QAbstractItemModel>
 #include <QModelIndex>
 
-#include "mediaWidget.h"
+QT_BEGIN_NAMESPACE
+class QAbstractItemModel;
+class QTreeWidgetItem;
+QT_END_NAMESPACE
 
-class QAction;
-class QTreeView;
-class QWidget;
-class QSplitter;
-
-class MainWindow : public QMainWindow
+//! [0]
+class XbelWriter
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-
-public slots:
-//*     void updateActions();
+//    XbelWriter(QTreeWidget *treeWidget);        //* Alt
+    XbelWriter(QAbstractItemModel *model);
+    bool writeFile(QIODevice *device);
 
 private:
-    MediaWidget *mediaWidget;
-    QSplitter *splitter;
-
-    QAction *loadFileAction;
-    QAction *saveAsFileAction;
-    QAction *exitAction;
-    QAction *aboutQtAction;
-    QAction *aboutAction;
-
-    QMenu *fileMenu;
-    QMenu *helpMenu;
-
-    QToolBar *MainToolBar;
-
-    void createActions();
-    void createToolBars();
-    void createStatusBar();
-    void createMenus();
-
-private slots:
-    void about();
+    void writeItem(QTreeWidgetItem *item);
+//*    void writeItem( *item);      //* Neu
+    QXmlStreamWriter xml;
+//    QTreeWidget *treeWidget;
+    QAbstractItemModel *model;                  //* Neu
 };
+//! [0]
 
 #endif

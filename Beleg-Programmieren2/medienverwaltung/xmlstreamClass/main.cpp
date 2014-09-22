@@ -1,15 +1,9 @@
 /****************************************************************************
-** \brief Dies ist ein Medienverwaltungsprogramm // This is an mediamanagementapplication
-**
-** \Author Norman Schwirz <nospam.schwirz AT freenet PUNKT de> (Bitte die großgeschriebenen Wörter in der Emailadr. entspr. ersetzen!)
-**
-** \License GPLv3
-** Kurz umrissen heist dies vor allem: Dies ist Freie Software, mach damit was du willst, solange du immer den Quellcode des kompletten Programms (inklusive der Autorenangabe und dieser Lizenzinfo) mitlieferst. Außerdem muss im Programm selbst bzw. dessen Dokumentation darauf hingewiesen werden.
 **
 ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
-** This file is originally based of an example of the Qt Toolkit and adopted by me (N. Schwirz) to my needs.
+** This file is part of the examples of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** You may use this file under the terms of the BSD license as follows:
@@ -44,51 +38,20 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include <QApplication>
 
-#include <QMainWindow>
-#include <QModelIndex>
+#include "mainwindow.h"
 
-#include "mediaWidget.h"
-
-class QAction;
-class QTreeView;
-class QWidget;
-class QSplitter;
-
-class MainWindow : public QMainWindow
+//! [0]
+int main(int argc, char *argv[])
 {
-    Q_OBJECT
-
-public:
-    MainWindow(QWidget *parent = 0);
-
-public slots:
-//*     void updateActions();
-
-private:
-    MediaWidget *mediaWidget;
-    QSplitter *splitter;
-
-    QAction *loadFileAction;
-    QAction *saveAsFileAction;
-    QAction *exitAction;
-    QAction *aboutQtAction;
-    QAction *aboutAction;
-
-    QMenu *fileMenu;
-    QMenu *helpMenu;
-
-    QToolBar *MainToolBar;
-
-    void createActions();
-    void createToolBars();
-    void createStatusBar();
-    void createMenus();
-
-private slots:
-    void about();
-};
-
+    QApplication app(argc, argv);
+    MainWindow mainWin;
+#ifdef Q_OS_SYMBIAN
+    mainWin.showFullScreen();
 #endif
+    mainWin.show();
+    mainWin.open();
+    return app.exec();
+}
+//! [0]

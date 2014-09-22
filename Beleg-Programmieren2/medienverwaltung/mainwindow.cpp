@@ -67,6 +67,16 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::createActions()
 {
+    loadFileAction = new QAction(trUtf8("Medienverwaltungsdatei &öffnen"), this);
+    loadFileAction->setShortcuts(QKeySequence::Open);
+    loadFileAction->setStatusTip(trUtf8("Liest die Medienverwaltungseinträge aus einer Datei ein"));
+    connect(loadFileAction, SIGNAL(triggered()), mediaWidget, SLOT(loadFile()) );
+
+    saveAsFileAction = new QAction(trUtf8("Datei &speichern"), this);
+    saveAsFileAction->setShortcuts(QKeySequence::SaveAs);
+    saveAsFileAction->setStatusTip(trUtf8("Speichert die Medienverwaltungseinträge in eine Datei"));
+    connect(saveAsFileAction, SIGNAL(triggered()), mediaWidget, SLOT(saveFile()) );
+
     exitAction = new QAction(trUtf8("B&eenden"), this);
     exitAction->setShortcuts(QKeySequence::Quit);
     exitAction->setStatusTip(trUtf8("Beendet das Programm"));
@@ -95,9 +105,9 @@ void MainWindow::createStatusBar()
 void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(trUtf8("&Datei"));
-//    fileMenu->addAction(openAct);
+    fileMenu->addAction(loadFileAction);
 //    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(saveAsAct);
+    fileMenu->addAction(saveAsFileAction);
 //    fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
 
@@ -111,8 +121,8 @@ void MainWindow::createMenus()
 void MainWindow::createToolBars()
 {
     MainToolBar = addToolBar(trUtf8("Haupt&werkzeugleiste"));
-//    fileToolBar->addAction(openAct);
-//    fileToolBar->addAction(saveAct);
+    MainToolBar->addAction(loadFileAction);
+    MainToolBar->addAction(saveAsFileAction);
     MainToolBar->addAction(exitAction);
     MainToolBar->addAction(aboutAction);
 }

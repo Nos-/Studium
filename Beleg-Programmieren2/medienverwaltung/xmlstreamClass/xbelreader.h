@@ -1,15 +1,9 @@
 /****************************************************************************
-** \brief Dies ist ein Medienverwaltungsprogramm // This is an mediamanagementapplication
-**
-** \Author Norman Schwirz <nospam.schwirz AT freenet PUNKT de> (Bitte die großgeschriebenen Wörter in der Emailadr. entspr. ersetzen!)
-**
-** \License GPLv3
-** Kurz umrissen heist dies vor allem: Dies ist Freie Software, mach damit was du willst, solange du immer den Quellcode des kompletten Programms (inklusive der Autorenangabe und dieser Lizenzinfo) mitlieferst. Außerdem muss im Programm selbst bzw. dessen Dokumentation darauf hingewiesen werden.
 **
 ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
-** This file is originally based of an example of the Qt Toolkit and adopted by me (N. Schwirz) to my needs.
+** This file is part of the examples of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
 ** You may use this file under the terms of the BSD license as follows:
@@ -44,51 +38,46 @@
 **
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef XBELREADER_H
+#define XBELREADER_H
 
-#include <QMainWindow>
-#include <QModelIndex>
+#include <QIcon>
+#include <QXmlStreamReader>
 
-#include "mediaWidget.h"
+QT_BEGIN_NAMESPACE
+class QTreeWidget;
+class QTreeWidgetItem;
+QT_END_NAMESPACE
 
-class QAction;
-class QTreeView;
-class QWidget;
-class QSplitter;
-
-class MainWindow : public QMainWindow
+//! [0]
+class XbelReader
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
+//! [1]
+    XbelReader(QTreeWidget *treeWidget);
+//! [1]
 
-public slots:
-//*     void updateActions();
+    bool read(QIODevice *device);
+
+    QString errorString() const;
 
 private:
-    MediaWidget *mediaWidget;
-    QSplitter *splitter;
+//! [2]
+    void readXBEL();
+    void readTitle(QTreeWidgetItem *item);
+    void readSeparator(QTreeWidgetItem *item);
+    void readFolder(QTreeWidgetItem *item);
+    void readBookmark(QTreeWidgetItem *item);
 
-    QAction *loadFileAction;
-    QAction *saveAsFileAction;
-    QAction *exitAction;
-    QAction *aboutQtAction;
-    QAction *aboutAction;
+    QTreeWidgetItem *createChildItem(QTreeWidgetItem *item);
 
-    QMenu *fileMenu;
-    QMenu *helpMenu;
+    QXmlStreamReader xml;
+    QTreeWidget *treeWidget;
+//! [2]
 
-    QToolBar *MainToolBar;
-
-    void createActions();
-    void createToolBars();
-    void createStatusBar();
-    void createMenus();
-
-private slots:
-    void about();
+    QIcon folderIcon;
+    QIcon bookmarkIcon;
 };
+//! [0]
 
 #endif

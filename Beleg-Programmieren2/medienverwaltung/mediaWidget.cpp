@@ -49,6 +49,8 @@
 
 #include "mediaWidget.h"
 #include "treemodel.h"
+#include "xmlstreamClass/xbelreader.h"
+#include "xmlstreamClass/xbelwriter.h"
 
 MediaWidget::MediaWidget(QWidget *parent)
     : QWidget(parent)
@@ -71,14 +73,15 @@ MediaWidget::MediaWidget(QWidget *parent)
     mediaView->setAlternatingRowColors(false);
 #endif
 
-    TreeModel *model = loadFile();
-
-    mediaView->setModel(model);
-    for (int column = 0; column < model->columnCount(); ++column) {
-        resizeColumnWidth(column);
-        if (mediaView->columnWidth(column) < 50 ) mediaView->setColumnWidth(column, 50);
-    }
-    mediaView->setColumnWidth(0, 200);
+    loadFile();
+//**    TreeModel *model = loadFileIntoModel();
+//
+//    mediaView->setModel(model);
+//    for (int column = 0; column < model->columnCount(); ++column) {
+//        resizeColumnWidth(column);
+//        if (mediaView->columnWidth(column) < 50 ) mediaView->setColumnWidth(column, 50);
+//    }
+//    mediaView->setColumnWidth(0, 200);
 //    mediaView->setSortingEnabled(true);
 
     connect(mediaView->selectionModel(),
@@ -97,26 +100,6 @@ MediaWidget::MediaWidget(QWidget *parent)
     createMediaTypeView();
     outerLayout->addWidget(mediaTypeView, 2, 1);
 
-}
-
-
-TreeModel * MediaWidget::loadFile()
-{
-    QStringList headers;
-    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
-    //*    QFile file(":/default.txt");
-    QString fileName = QFileDialog::getOpenFileName(this,trUtf8("Medienverwaltungsdatei öffnen"));
-
-    TreeModel *model;
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        file.open(QIODevice::ReadOnly);
-        model = new TreeModel(headers, file.readAll());
-        file.close();
-    } else {
-        model = new TreeModel(headers, "[Keine Medien enthalten]");
-    }
-    return model;
 }
 
 void MediaWidget::createMediaTypeView()
@@ -253,7 +236,7 @@ void MediaWidget::updateActions()
     removeColumnAction->setEnabled(hasSelection);
 
     bool hasCurrent = mediaView->selectionModel()->currentIndex().isValid();
-    insertRowAction->setEnabled(hasCurrent);
+    insertRowAction->setEnabled(true);              //*
     insertColumnAction->setEnabled(hasCurrent);
     insertChildAction->setEnabled(hasCurrent);
 
@@ -286,3 +269,230 @@ void MediaWidget::resizeColumnWidth(int column)
 {
     mediaView->resizeColumnToContents(column);
 }
+
+//bool MediaWidget::saveFile()
+//{
+//    return saveModelToFile(mediaView->model());
+//}
+
+//bool MediaWidget::saveModelToFile(QAbstractItemModel *model)
+//{
+// //    QStringList headers;
+// //    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+// //    //*    QFile file(":/default.txt");
+//    QString fileName = QFileDialog::getSaveFileName(this,trUtf8("Medienverwaltungsdatei speichern"));
+
+// //    TreeModel *model;
+//    if (!fileName.isEmpty()) {
+//        QFile file(fileName);
+//        file.open(QIODevice::WriteOnly);
+//        file.write("Hallo Welt");   //*
+//        model->dumpObjectTree();    //*
+// //        model = new TreeModel(headers, file.readAll());
+//        file.close();
+//        return true;
+//    }
+//    return false;
+//}
+
+
+
+bool MediaWidget::loadFile()
+{
+    TreeModel *model;
+    QStringList headers;
+    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+
+    QString fileName =
+            QFileDialog::getOpenFileName(this, trUtf8("Medienverwaltungsdatei öffnen"),
+                                         QDir::currentPath(),
+//*                                         tr("XBEL Files (*.xbel *.xml)"));
+                                            tr("txt Dateien (*.txt *.TXT)"));
+    if (fileName.isEmpty()) {
+        model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
+        mediaView->setModel(model);
+        return false;
+    }
+
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, trUtf8("Medienverwaltung"),
+                             tr("Cannot read file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
+        mediaView->setModel(model);
+        return false;
+    }
+
+
+//    QFile file(fileName);
+//    file.open(QIODevice::ReadOnly);
+    model = new TreeModel(headers, file.readAll());
+    file.close();
+
+
+//    mediaView->model()->deleteLater();
+
+//    QStringList headers;
+//    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+
+//    TreeModel *model;
+//    model = new TreeModel(headers,);                                //**
+
+//    XbelReader reader(model);                                       //**
+//    if (!reader.read(&file)) {
+//        QMessageBox::warning(this, tr("QXmlStream Bookmarks"),
+//                             tr("Parse error in file %1:\n\n%2")
+//                             .arg(fileName)
+//                             .arg(reader.errorString()));
+//        return false;
+//    } else {
+// //*        statusBar()->showMessage(tr("File loaded"), 2000);
+//    }
+
+
+//*    if (mediaView->model()) mediaView->model()->deleteLater();
+    mediaView->setModel(model);
+
+    for (int column = 0; column < model->columnCount(); ++column) {
+        resizeColumnWidth(column);
+        if (mediaView->columnWidth(column) < 50 ) mediaView->setColumnWidth(column, 50);
+    }
+    mediaView->setColumnWidth(0, 200);
+    return true;    //*
+}
+
+//TreeModel * MediaWidget::loadModelFromFile()
+//{
+//    QStringList headers;
+//    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+//    //*    QFile file(":/default.txt");
+//    QString fileName = QFileDialog::getOpenFileName(this,trUtf8("Medienverwaltungsdatei öffnen"));
+//
+//    TreeModel *model;
+//    if (!fileName.isEmpty()) {
+//        QFile file(fileName);
+//        file.open(QIODevice::ReadOnly);
+//        model = new TreeModel(headers, file.readAll());
+//        file.close();
+//    } else {
+//        model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
+//    }
+//    return model;
+//}
+
+
+
+
+bool MediaWidget::saveFile()
+{
+//#if defined(Q_OS_SYMBIAN)
+//    // Look for bookmarks on the same drive where the application is installed to,
+//    // if drive is not read only. QDesktopServices::DataLocation does this check,
+//    // and returns writable drive.
+//    QString bookmarksFolder =
+//            QDesktopServices::storageLocation(QDesktopServices::DataLocation).left(1);
+//    bookmarksFolder.append(":/Data/qt/saxbookmarks");
+//    QDir::setCurrent(bookmarksFolder);
+//#endif
+    QString fileName =
+            QFileDialog::getSaveFileName(this, trUtf8("Datei speichern"),
+                                         QDir::currentPath(),
+//*                                         tr("XBEL Files (*.xbel *.xml)"));
+                                         tr("txt Dateien (*.txt *.TXT)"));
+    if (fileName.isEmpty())
+        return false;
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, trUtf8("Medienverwaltung"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    qDebug() << "Speichere Datei";
+
+//    QDataStream stream;
+//    stream = new QDataStream();
+//    model->encodeData(QModelIndexList, stream);
+
+//*    file.write(getItemData(mediaView->model()->index(0, 0))->toAscii());
+    file.write(getItemData(mediaView->model())->toAscii());
+
+//    XbelWriter writer(model);
+//    if (writer.writeFile(&file)) {
+//        statusBar()->showMessage(tr("File saved"), 2000);
+        file.close();
+        return true;
+//    }
+}
+
+QString* MediaWidget::getItemData(QAbstractItemModel *model, QModelIndex parent, int level)
+{
+//    getItemData(mediaView->model()->index(0, 0));
+
+//    model->index(row, col, parent).data().toString();
+    level++;
+    QString *result;
+    result = new QString();
+    int col;
+    int row;
+
+//    result->append("(" + model->index(0, 0, parent).data().toString() + ")\n");
+
+    // Zeilenweise Inhalte ermitteln
+    row = 0;
+    while (model->index(row, col, parent).isValid()) {
+
+        // Alle Zellen der Zeile abfragen
+        col = 0;
+        result->append(QString(" ").repeated(level));   // Zeileneinrückung je nach Verschachtelungstiefe
+        while (col <= model->columnCount()) {
+            result->append(model->index(row, col, parent).data().toString() + "\t");
+            col++;
+        }
+        result->append("\n");
+
+        // Unterelemente rekursiv abfragen
+        result->append(getItemData(model, model->index(row, 0, parent), level));
+
+        row++;
+    }
+    level--;
+    return result;
+}
+
+//QString * MediaWidget::getItemData(QModelIndex index, int level)
+//{
+//    level++;                                               /// level = Rekursionstiefe
+//    QString *result;
+//    result = new QString();
+//    int col;
+//    int row;
+
+//    result->append("(" + index.data().toString() + ")\n");
+
+//    // Zeilenweise Inhalte ermitteln
+//    row = 0;
+//    while (index.child(row, col).isValid()) {
+
+//        // Alle Zellen der Zeile abfragen
+//        col = 0;
+//        result->append(QString(".").repeated(level));
+//        while (col <= index.model()->columnCount()) {
+//            result->append(index.child(row, col).data().toString() + ",\t");
+//            col++;
+//        }
+//        result->append("\n");
+
+//        // Unterelemente rekursiv abfragen
+//        result->append(getItemData(index.child(row, 0), level));
+
+//        row++;
+//    }
+//    level--;
+//    return result;
+//}

@@ -86,6 +86,8 @@ public slots:
     bool removeColumn(const QModelIndex &parent = QModelIndex());
     void removeRow();
     void resizeColumnWidth(int column);
+    bool loadFile();
+    bool saveFile();
 
 private:
     QTreeView   *mediaView;
@@ -99,7 +101,10 @@ private:
     void createToolBars();
     void createActions();
     void createMediaTypeView();
-    TreeModel * loadFile();
+//*    TreeModel * loadModelFromFile();
+    bool saveModelToFile(QAbstractItemModel *model);
+    QString* getItemData(QAbstractItemModel *model, QModelIndex parent = QModelIndex(), int level=-1);
+//    QString* getItemData(QModelIndex index, int level=0);
 
 private slots:
 };
