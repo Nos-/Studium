@@ -363,8 +363,8 @@ QString* MediaWidget::getSerializedModelData(QAbstractItemModel *model, QModelIn
     level++;
     QString *result;
     result = new QString();
-    int col;
-    int row;
+    int col = 0;
+    int row = 0;
 
 //    result->append("(" + model->index(0, 0, parent).data().toString() + ")\n");
 

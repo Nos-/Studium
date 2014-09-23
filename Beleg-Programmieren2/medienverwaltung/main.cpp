@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setOrganizationName("Nos-");
     app.setApplicationName("Medienverwaltung");
+    app.setApplicationVersion("0.1.1");
     MainWindow mainWin;
 #if defined(Q_OS_SYMBIAN)
     mainWin.showMaximized();

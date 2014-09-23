@@ -99,10 +99,12 @@ void MainWindow::createActions()
 void MainWindow::about()
 {
    QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner ersten QT4-Applikationen.\n "
-                   "Sie entstand als Belegarbeit für die Lehrveranstaltung 'Programmieren2' bei Herrn Prof. Beck im Studiengang Informatik an der HTW Dresden im SS2014\n "
-                   "Autor &Kontakt: Norman Schwirz (s70341@htw-dresden.de). "
-                   "Dieses Programm gebe ich unter der <a href='https://www.gnu.org/licenses/gpl-3.0'>GPLv3 Lizenz</a> frei. (Natürlich <b>ohne Gewähr und Haftung. Nutzung auf eigenes Risiko!</b>) Weitere Informationen sowie der Quellcode befinden sich auf der Projektseite: <a href='https://github.com/Nos-/Studium/tree/master/Beleg-Programmieren2/medienverwaltung'>https://github.com/Nos-/Studium</a>."));
+            trUtf8("<b>Medienverwaltung 0.1.1</b><br/>"
+                   "<p>Die Medienverwaltung ist eine meiner ersten QT4-Applikationen.<br/>"
+                   "Sie entstand als Belegarbeit für die Lehrveranstaltung 'Programmieren2' bei Herrn Prof. Beck im Studiengang Informatik an der HTW Dresden im SS2014</p>"
+                   "<p><b>Autor &Kontakt</b><br/>Norman Schwirz<br/>(e-mail: s70341@htw-dresden.de, GPG-Key:2048R/46977218).</p>"
+                   "<p><b>Nutzungsbedingungen und Lizenz</b><br/>Dieses Programm gebe ich unter der <a href='https://www.gnu.org/licenses/gpl-3.0'>GPLv3 Lizenz</a> frei. (Natürlich ohne Gewähr und Haftung. Nutzung auf eigenes Risiko!)</p>"
+                   "<p><b>Weitere Informationen</b> sowie der Quellcode befinden sich auf der Projektseite: <a href='https://github.com/Nos-/Studium/tree/master/Beleg-Programmieren2/medienverwaltung'>https://github.com/Nos-/Studium</a>.</p>"));
 }
 
 void MainWindow::createStatusBar()
