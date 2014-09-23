@@ -99,7 +99,10 @@ void MainWindow::createActions()
 void MainWindow::about()
 {
    QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meinerersten QT4-Applikationen.\n Autor: Norman Schwirz"));
+            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner ersten QT4-Applikationen.\n "
+                   "Sie entstand als Belegarbeit für die Lehrveranstaltung 'Programmieren2' bei Herrn Prof. Beck im Studiengang Informatik an der HTW Dresden im SS2014\n "
+                   "Autor &Kontakt: Norman Schwirz (s70341@htw-dresden.de). "
+                   "Dieses Programm gebe ich unter der <a href='https://www.gnu.org/licenses/gpl-3.0'>GPLv3 Lizenz</a> frei. (Natürlich <b>ohne Gewähr und Haftung. Nutzung auf eigenes Risiko!</b>) Weitere Informationen sowie der Quellcode befinden sich auf der Projektseite: <a href='https://github.com/Nos-/Studium/tree/master/Beleg-Programmieren2/medienverwaltung'>https://github.com/Nos-/Studium</a>."));
 }
 
 void MainWindow::createStatusBar()

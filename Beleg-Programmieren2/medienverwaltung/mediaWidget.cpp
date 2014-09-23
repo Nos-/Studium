@@ -283,7 +283,7 @@ bool MediaWidget::loadFile(QString fileName)
 {
     TreeModel *model;
     QStringList headers;
-    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << trUtf8("Beschreibung") << trUtf8("Ausgeliehen an") << trUtf8("Ausgeliehen bis");
 
     if (fileName.isEmpty()) {
         model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
@@ -395,7 +395,8 @@ void MediaWidget::newFile()
 {
     TreeModel *model;
     QStringList headers;
-    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << trUtf8("Beschreibung") << trUtf8("Ausgeliehen an") << trUtf8("Ausgeliehen bis");
+
 
 //    model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
 //    mediaView->setModel(model);
@@ -418,8 +419,12 @@ void MediaWidget::newFile()
     // Icons setzen
     for (int row = 0; row < model->rowCount();row++)
     {
-        qDebug() << model->index(row, 0).data();
+
+        // Medientypen in der Liste entsprechende Icons zuweisen    // Funzt leider nicht (Keine Reaktion)
+//        qDebug() << model->index(row, 0).data();
         model->setData(model->index(row, 0), QIcon(":Multimedia"), Qt::DecorationRole);      // model->index(row, 0).data());
+
+//        model->setItemData(model->index(row, 0), QIcon(":Multimedia"), Qt::DecorationRole);
     }
 
     // Spaltenbreite anpassen

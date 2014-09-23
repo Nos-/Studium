@@ -1,16 +1,15 @@
-Buecher
- C++ for Dummies							foo
- Per Anhalter durch die Gallaxis			bar
-
-Filme
- Das Leben des Brian						;-)
- Die Sendung mit der Maus (Folge 123)	irgend ein Text
-
-Musik
- Klassiksammlung    Jede Menge Klassische Musik
-  Bach
-  Beethoven
-  Mozart
-CDs+DVDs
- Bolero				Etwas klassisches
- 8 Bit-Noise			Minimalistische Retro-KlÃ¤nge
+BÜCHER	BUCHTITEL	SEITENANZAHL	LIZENZ	Notiz				
+ SofiesWelt(OA)	Sofis verdern (Norw. Orginalausg.)	1001	unfrei	Ans Wörterbuch denken! ;-)	[Neuer Eintrag]			
+ C++f.Dummies	C++ for Dummies	123	CC ('OpenBook')	foo				
+ PerAnh.d.d.Gallaxis	Per Anhalter d.d. Gallaxis	1003	konventionell	bar	Paul <Paul@email.de>	2014-09-30		
+FILME	FILMTITEL	FILMSPIELDAUER	LIZENZ/ KOPIERSCHUTZ	Kommentar				
+ DasL.d.Brian	Das Leben des Brian	100 Min.	Kopiergeschützt	;-)	Max <Max@e-Mail.de>	2014-10-01		
+ DieS.m.d.Maus-123	Die Sendung mit der Maus (Folge 123)	45 Min.	Frei für Bildungszwecke					
+MUSIK	NAME DER ZUSAMMENSTELLUNG	MUSIKSPIELDAUER	LIZENZ/ GEMA-PFLICHTIG	zusätzliche Infos				
+ Klassiksammlung	Meine kleine Klassiksammlung	 Jede Menge Klassische Musik						
+  Klass.M.v.Bach	Musik von Bach	70 Min.	Gemeinfrei, Gema-frei					
+  Klass.M.v.Beethoven	Musik von  Beethoven	65 Min.	Gemeinfrei, Gema-frei					
+  Klass.M.v.Mozart	Musik von Mozart	73 Min.	Gemeinfrei, Gema-frei					
+CDs+DVDs	CD-/DVD-BESCHRIFTUNG	SPIELDAUER	LIZENZ					
+ Bolero	Bolero	?	?					
+ 8 Bit-Noise	8 Bit-Noise	CC, Gema-frei	Minimalistische Retro-Klaenge					
