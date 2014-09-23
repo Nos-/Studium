@@ -75,6 +75,8 @@ public:
     QAction *removeRowAction;
     QAction *removeColumnAction;
     QAction *insertChildAction;
+    bool loadFile(QString fileName);
+    bool saveFile(QString * fileName);
 
 
 public slots:
@@ -101,10 +103,8 @@ private:
     void createToolBars();
     void createActions();
     void createMediaTypeView();
-//*    TreeModel * loadModelFromFile();
     bool saveModelToFile(QAbstractItemModel *model);
-    QString* getItemData(QAbstractItemModel *model, QModelIndex parent = QModelIndex(), int level=-1);
-//    QString* getItemData(QModelIndex index, int level=0);
+    QString* getSerializedModelData(QAbstractItemModel *model, QModelIndex parent = QModelIndex(), int level=-1);
 
 private slots:
 };
