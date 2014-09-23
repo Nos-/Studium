@@ -49,8 +49,6 @@
 
 #include "mediaWidget.h"
 #include "treemodel.h"
-#include "xmlstreamClass/xbelreader.h"
-#include "xmlstreamClass/xbelwriter.h"
 
 MediaWidget::MediaWidget(QWidget *parent)
     : QWidget(parent)
@@ -73,10 +71,10 @@ MediaWidget::MediaWidget(QWidget *parent)
     mediaView->setAlternatingRowColors(false);
 #endif
 
-    QString fileName;
-    fileName.fromStdString(":/default.txt");               //* FIXME: Die zu öffnende Datei wird nicht übergeben
-    loadFile(fileName);
-//*    loadFile();
+//    QString fileName;
+//    fileName.fromStdString(":/default.txt");               //* FIXME: Die zu öffnende Datei wird nicht übergeben
+//    loadFile(fileName);
+    newFile();
 
     connect(mediaView->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &,
@@ -113,22 +111,27 @@ void MediaWidget::createActions()
 {
     insertRowAction = new QAction(trUtf8("&Neuen Eintrag anlegen"), this);
     insertRowAction->setStatusTip(trUtf8("Legt einen neuen Eintrag an (der in selben Ebene wie der markierte liegt)"));
+    insertRowAction->setIcon(QIcon(":NeuesOrdnerElement"));
     connect(insertRowAction, SIGNAL(triggered()), this, SLOT(insertRow()));
 
     insertChildAction = new QAction(trUtf8("&Untereintrag anlegen"), this);
     insertChildAction->setStatusTip(trUtf8("Legt einen neuen Untereintrag an"));
+    insertChildAction->setIcon(QIcon(":NeuesUnterElement"));
     connect(insertChildAction, SIGNAL(triggered()), this, SLOT(insertChild()));
 
     insertColumnAction = new QAction(trUtf8("&Spalte einfügen"), this);
     insertColumnAction->setStatusTip(trUtf8("Fügt eine neue Eigenschaftenspalte rechts neben der aktuellen ein"));
+    insertColumnAction->setIcon(QIcon(":SpalteEinfuegen"));
     connect(insertColumnAction, SIGNAL(triggered()), this, SLOT(insertColumn()));
 
     removeRowAction = new QAction(trUtf8("Einträg(e) &entfernen"), this);
     removeRowAction->setStatusTip(trUtf8("Entfernt den aktuell markierten Eintrag samt seiner Untereinträge"));
+    removeRowAction->setIcon(QIcon(":OrdnerElementEntfernen"));
     connect(removeRowAction, SIGNAL(triggered()), this, SLOT(removeRow()));
 
     removeColumnAction = new QAction(trUtf8("Spalte en&tfernen"), this);
     removeColumnAction->setStatusTip(trUtf8("Entfernt die aktuelle Eigenschaftenspalte"));
+    removeColumnAction->setIcon(QIcon(":SpalteEntfernen"));
     connect(removeColumnAction, SIGNAL(triggered()), this, SLOT(removeColumn()));
 }
 
@@ -269,7 +272,7 @@ void MediaWidget::resizeColumnWidth(int column)
 bool MediaWidget::loadFile()
 {
     QString fileName =
-            QFileDialog::getOpenFileName(this, trUtf8("Medienverwaltungsdatei öffnen"),
+            QFileDialog::getOpenFileName(this, trUtf8("Medienverwaltung aus Datei einlesen"),
                                          QDir::currentPath(),
 //*                                         tr("XBEL Files (*.xbel *.xml)"));
                                             tr("txt Dateien (*.txt *.TXT)"));
@@ -319,7 +322,7 @@ bool MediaWidget::loadFile(QString fileName)
 bool MediaWidget::saveFile()
 {
     QString fileName =
-            QFileDialog::getSaveFileName(this, trUtf8("Datei speichern"),
+            QFileDialog::getSaveFileName(this, trUtf8("Medienverwaltung in Datei speichern"),
                                          QDir::currentPath(),
 //*                                         tr("XBEL Files (*.xbel *.xml)"));
                                          tr("txt Dateien (*.txt *.TXT)"));
@@ -385,4 +388,45 @@ QString* MediaWidget::getSerializedModelData(QAbstractItemModel *model, QModelIn
     }
     level--;
     return result;
+}
+
+
+void MediaWidget::newFile()
+{
+    TreeModel *model;
+    QStringList headers;
+    headers << trUtf8("Medien-ID") << trUtf8("Bezeichnung") << trUtf8("Medienspezifisch 1") << trUtf8("Medienspezifisch 2") << tr("Beschreibung");
+
+//    model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
+//    mediaView->setModel(model);
+
+    // Beispieldaten aus Resourcendatei einlesen
+    QFile file(":default.txt");
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, trUtf8("Medienverwaltung"),
+                             tr("Die Beispieldaten konnten nicht geladen werden:\n%2.")
+                             .arg(file.errorString()));
+        model = new TreeModel(headers, trUtf8("[Keine Medien enthalten]"));
+        mediaView->setModel(model);
+    }
+
+    model = new TreeModel(headers, file.readAll());
+    file.close();
+
+    mediaView->setModel(model);
+
+    // Icons setzen
+    for (int row = 0; row < model->rowCount();row++)
+    {
+        qDebug() << model->index(row, 0).data();
+        model->setData(model->index(row, 0), QIcon(":Multimedia"), Qt::DecorationRole);      // model->index(row, 0).data());
+    }
+
+    // Spaltenbreite anpassen
+    for (int column = 0; column < model->columnCount(); ++column) {
+        resizeColumnWidth(column);
+        if (mediaView->columnWidth(column) < 50 ) mediaView->setColumnWidth(column, 50);
+    }
+    mediaView->setColumnWidth(0, 200);
+
 }

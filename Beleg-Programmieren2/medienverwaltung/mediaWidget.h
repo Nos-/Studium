@@ -103,8 +103,8 @@ private:
     void createToolBars();
     void createActions();
     void createMediaTypeView();
-    bool saveModelToFile(QAbstractItemModel *model);
     QString* getSerializedModelData(QAbstractItemModel *model, QModelIndex parent = QModelIndex(), int level=-1);
+    void newFile();
 
 private slots:
 };

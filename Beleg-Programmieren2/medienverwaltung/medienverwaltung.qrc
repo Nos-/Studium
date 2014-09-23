@@ -1,5 +1,50 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/default.txt</file>
+        <file alias="default.txt">resources/default.txt</file>
+        <file alias="SpalteEntfernen">resources/icons_oxygen/edit-table-delete-column.png</file>
+        <file alias="ZeileEntfernen">resources/icons_oxygen/edit-table-delete-row.png</file>
+        <file>resources/icons_oxygen/edit-table-insert-row-above.png</file>
+        <file alias="ZeileEinfuegen">resources/icons_oxygen/edit-table-insert-row-below.png</file>
+        <file>resources/icons_oxygen/edit-table-insert-column-left.png</file>
+        <file alias="SpalteEinfuegen">resources/icons_oxygen/edit-table-insert-column-right.png</file>
+        <file alias="NeuesUnterElement">resources/icons_oxygen/document-new.png</file>
+        <file alias="DateiOeffnen">resources/icons_oxygen/document-open.png</file>
+        <file alias="NeuesOrdnerElement">resources/icons_oxygen/folder-new.png</file>
+        <file alias="Abbrechen">resources/icons_oxygen/window-close.png</file>
+        <file alias="Buecher">resources/icons_oxygen/accessories-dictionary.png</file>
+        <file alias="Schriften">resources/icons_oxygen/accessories-text-editor.png</file>
+        <file alias="Spiele">resources/icons_oxygen/applications-games.png</file>
+        <file alias="Grafiken">resources/icons_oxygen/applications-graphics.png</file>
+        <file alias="Multimedia">resources/icons_oxygen/applications-multimedia.png</file>
+        <file alias="Musik">resources/icons_oxygen/audio-headphones.png</file>
+        <file>resources/icons_oxygen/audio-volume-high.png</file>
+        <file>resources/icons_oxygen/folder-video.png</file>
+        <file alias="Hinzufuegen">resources/icons_oxygen/list-add.png</file>
+        <file alias="Entfernen">resources/icons_oxygen/list-remove.png</file>
+        <file alias="CDs+DVDs">resources/icons_oxygen/media-optical-audio.png</file>
+        <file alias="Blueray-Disk">resources/icons_oxygen/media-optical-blu-ray.png</file>
+        <file alias="Film-DVD">resources/icons_oxygen/media-optical-dvd-video.png</file>
+        <file alias="PersonInfo">resources/icons_oxygen/meeting-participant-optional.png</file>
+        <file>resources/icons_oxygen/office-calendar.png</file>
+        <file alias="Benachrichtigung">resources/icons_oxygen/preferences-desktop-notification.png</file>
+        <file alias="Sound">resources/icons_oxygen/preferences-desktop-sound.png</file>
+        <file alias="Person-Info">resources/icons_oxygen/preferences-desktop-user.png</file>
+        <file alias="Hilfe">resources/icons_oxygen/system-help.png</file>
+        <file alias="Entleihende">resources/icons_oxygen/system-users.png</file>
+        <file alias="Achtung">resources/icons_oxygen/task-attention.png</file>
+        <file alias="Entleihender">resources/icons_oxygen/user-identity.png</file>
+        <file alias="Info">resources/icons_oxygen/dialog-information.png</file>
+        <file alias="DateiSpeichern">resources/icons_oxygen/document-save.png</file>
+        <file alias="NeuePerson">resources/icons_oxygen/list-add-user.png</file>
+        <file alias="PersonEntfernen">resources/icons_oxygen/list-remove-user.png</file>
+        <file alias="Dateianhang">resources/icons_oxygen/mail-attachment.png</file>
+        <file alias="Bewertung">resources/icons_oxygen/rating.png</file>
+        <file alias="Filme">resources/icons_oxygen/tool-animator.png</file>
+        <file alias="NeueBenutzergruppe">resources/icons_oxygen/user-group-delete.png</file>
+        <file alias="BenutzergruppeEntfernen">resources/icons_oxygen/user-group-new.png</file>
+        <file alias="Kalender">resources/icons_oxygen/view-calendar.png</file>
+        <file alias="Beenden">resources/icons_oxygen/task-reject.png</file>
+        <file alias="Medien">resources/icons_humanity/applications-other.svg</file>
+        <file alias="OrdnerElementEntfernen">resources/icons_oxygen/document-folder-remove.png</file>
     </qresource>
 </RCC>

@@ -1,12 +1,16 @@
 Buecher
-    C++ for Dummies							foo
-    Per Anhalter durch die Gallaxis			bar
+ C++ for Dummies							foo
+ Per Anhalter durch die Gallaxis			bar
 
-Videos
-    Das Leben des Brian						;-)
-    Die Sendung mit der Maus (Folge 123)	irgend ein Text
+Filme
+ Das Leben des Brian						;-)
+ Die Sendung mit der Maus (Folge 123)	irgend ein Text
 
-CDs &DVDs
-    Bolero				Etwas klassisches
-    8 Bit-Noise			Minimalistische Retro-Klänge
-
+Musik
+ Klassiksammlung    Jede Menge Klassische Musik
+  Bach
+  Beethoven
+  Mozart
+CDs+DVDs
+ Bolero				Etwas klassisches
+ 8 Bit-Noise			Minimalistische Retro-Klänge

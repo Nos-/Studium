@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setWindowTitle(trUtf8("Medienverwaltung"));
+    setWindowIcon(QIcon(":Medien"));
     splitter = new QSplitter(this);
     setCentralWidget(splitter);
 
@@ -70,20 +71,24 @@ void MainWindow::createActions()
     loadFileAction = new QAction(trUtf8("Medienverwaltungsdatei &öffnen"), this);
     loadFileAction->setShortcuts(QKeySequence::Open);
     loadFileAction->setStatusTip(trUtf8("Liest die Medienverwaltungseinträge aus einer Datei ein"));
+    loadFileAction->setIcon(QIcon(":DateiOeffnen"));
     connect(loadFileAction, SIGNAL(triggered()), mediaWidget, SLOT(loadFile()) );
 
     saveAsFileAction = new QAction(trUtf8("Datei &speichern"), this);
     saveAsFileAction->setShortcuts(QKeySequence::SaveAs);
     saveAsFileAction->setStatusTip(trUtf8("Speichert die Medienverwaltungseinträge in eine Datei"));
+    saveAsFileAction->setIcon(QIcon(":DateiSpeichern"));
     connect(saveAsFileAction, SIGNAL(triggered()), mediaWidget, SLOT(saveFile()) );
 
     exitAction = new QAction(trUtf8("B&eenden"), this);
     exitAction->setShortcuts(QKeySequence::Quit);
     exitAction->setStatusTip(trUtf8("Beendet das Programm"));
+    exitAction->setIcon(QIcon(":Beenden"));
     connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     aboutAction = new QAction(trUtf8("&Über dieses Programm"), this);
     aboutAction->setStatusTip(trUtf8("Zeigt das Infofenster dieses Programmes an"));
+    aboutAction->setIcon(QIcon(":Info"));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
 
     aboutQtAction = new QAction(trUtf8("Über &Qt"), this);
