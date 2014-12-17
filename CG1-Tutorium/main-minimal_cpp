@@ -1,0 +1,32 @@
+/** \file main-minimal_cpp Minimales OpenGL-Programm eines einfachen schwarzen Fensters.
+*
+* \synopsis g++ *.cpp -I/usr/include/glm -I/usr/include/GL  -lGL -lGLEW -lGLU -lglut
+*/
+
+#include "main.h"
+
+
+
+void init(){
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glEnable(GL_DEPTH_TEST);
+}
+
+
+void display(){
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+	glutSwapBuffers();
+}
+
+int main (int argc, char** argv){
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+	glutInitWindowSize(512, 512);
+	glutCreateWindow(argv[0]);
+	glewInit();
+	init();
+	glutDisplayFunc(display);
+	glutMainLoop();
+	return OK;
+}
