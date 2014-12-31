@@ -9,16 +9,16 @@
 \usepackage{graphicx}
 
 \title{Wikischulung}
-%% \subtitle{Gemeinsame Wissensverwaltung per Wiki}
+\subtitle{Gemeinsame Wissensverwaltung per Wiki}
 \author{Norman Schwirz}
 \date{\today}
 
 \begin{document}
 \begin{frame} %%{Wiki-Schulung}{Gemeinsame Wissensverwaltung per Wiki}
 
-%%  \maketitle
+%  \maketitle
   \begin{center}
-    \includegraphics[keepaspectratio=true]{wikischool-logo}
+    \includegraphics[keepaspectratio=true, scale=1]{wikischool-logo}
     \begin{longtable}{|l|l|}
       \hline
       %% \multicolumn{2}{|l|}{ Crystal Clear app kworldclock Veranstaltungskurzinfo } \\ 
@@ -68,8 +68,13 @@
 
 \begin{frame}
   \frametitle{Eure Erwartungen?}
-  
-  zentriert
+
+  \begin{figure}
+      \begin{center}
+        \includegraphics[scale=0.5]{Circle-question_400x400.png}
+        \label{fig:Fragezeichenschild}
+      \end{center}
+    \end{figure}
   
 \end{frame}
 
@@ -96,42 +101,64 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Einige Wikis im Vergleich}{Einige Wikis im Vergleich}
-  \begin{longtable}{|l|l|}
-    \hline
-    \textbf{\href{http://wiki.stura.htw-dresden.de}{StuRa-Wiki}} miniatur|rechts Typ: MediaWiki Zweck: Das StuRa-Wiki soll KEIN Lexikon sein, sondern unserer Archivierung dienen & \textbf{\href{http://www.the-empire.de}{the-empire- Wiki}} miniatur|links| Typ: Semantic-MediaWiki Zweck: Organisations- und Kommunitationsplattform einer öffentlichen Initiative \\ 
-    \hline
-     
-    \textbf{\href{http://www.wikipedia.de}{Wikipedia}} miniatur|rechts Typ: MediaWiki Zweck: Das Wissen der Welt sammeln und jedermann weltweit frei zur Verfügung stellen & \textbf{\href{http://www2.htw-dresden.de/~s70341/cgi-bin/dokuwiki/doku.php}{Mein MitschriftenWiki}} miniatur|links| Typ: DokuWiki Zweck: Gemeinsames Erstellen von Studienmitschriften als \emph{freies} Wissen (s.a.  Open Educational Ressources; es wird die gleich Lizenz wie bei der Wikipedia verwendet) \\ 
-    \hline
-     
-  \end{longtable}
+  \frametitle{Einige Wikis im Vergleich}
+  \begin{table}
+    \caption{Wikivergleich1}
+    \label{tab:Wikivergleich1}
+
+    \begin{center}
+      \begin{longtable}{|l|l|}
+        \hline
+        \textbf{\href{http://wiki.stura.htw-dresden.de}{StuRa-Wiki}}
+        Typ: MediaWiki
+        Zweck: Das StuRa-Wiki soll KEIN Lexikon sein, sondern unserer Archivierung dienen &
+        \textbf{\href{http://www.the-empire.de}{the-empire- Wiki}}
+        Typ: Semantic-MediaWiki
+        Zweck: Organisations- und Kommunitationsplattform einer öffentlichen Initiative \\ 
+        \hline
+
+        \textbf{\href{http://www.wikipedia.de}{Wikipedia}}
+        Typ: MediaWiki
+        Zweck: Das Wissen der Welt sammeln und jedermann weltweit frei zur Verfügung stellen &
+        \textbf{\href{http://www2.htw-dresden.de/~s70341/cgi-bin/dokuwiki/doku.php}{Mein MitschriftenWiki}}
+        Typ: DokuWiki
+        Zweck: Gemeinsames Erstellen von Studienmitschriften als \emph{freies} Wissen (s.a.  Open Educational Ressources; es wird die gleich Lizenz wie bei der Wikipedia verwendet) \\ 
+        \hline
+      \end{longtable}
+    \end{center}
+  \end{table}
+
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Einige Wikis im Vergleich II}{Einige Wikis im Vergleich II}
-  \begin{longtable}{|l|l|}
-    \hline
-    \textbf{StuRa-Wiki} miniatur|rechts Typ: MediaWiki Funktionsumfang: an StuRa- Alltag angepasst, einfach und ohne überflüssige Funktionen & \textbf{the-empire- Wiki} miniatur|links Typ: Semantic-MediaWiki Funktionsumfang: Ähnlich Mediawiki, jedoch mit einigen Zusatzfunk- tionen (dyn. Landkarten...) \\ 
-    \hline
-     
-    \textbf{Wikipedia} miniatur|rechts| Typ: MediaWiki Funktionsumfang: gemacht um das (gesamte) Wissen der Welt zu speichern - von allen für alle & \textbf{MitschriftenWiki} miniatur|links Typ: DokuWiki Funktionsumfang: Angepasst an Studienalltag und den Hochschulserver, auf dem es läuft \\ 
-    \hline
-     
-  \end{longtable}
+  \frametitle{Einige Wikis im Vergleich II}
+
+  \begin{table}
+    \caption{Wikivergleich2}
+    \label{tab:Wikivergleich2}
+
+    \begin{center}
+      \begin{longtable}{|l|l|}
+        \hline
+        \textbf{StuRa-Wiki} Typ: MediaWiki Funktionsumfang: an StuRa- Alltag angepasst, einfach und ohne überflüssige Funktionen & \textbf{the-empire- Wiki} Typ: Semantic-MediaWiki Funktionsumfang: Ähnlich Mediawiki, jedoch mit einigen Zusatzfunk- tionen (dyn. Landkarten...) \\ 
+        \hline
+        \textbf{Wikipedia} Typ: MediaWiki Funktionsumfang: gemacht um das (gesamte) Wissen der Welt zu speichern - von allen für alle & \textbf{MitschriftenWiki} Typ: DokuWiki Funktionsumfang: Angepasst an Studienalltag und den Hochschulserver, auf dem es läuft \\ 
+        \hline
+      \end{longtable}
+    \end{center}
+  \end{table}
+
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Grundsätzliche Hinweise}
-\end{frame}
+  \frametitle{Grundsätzliche Hinweise}{Haftung für Inhalte}
 
-\begin{frame}
-  \frametitle{Haftung für Inhalte}
-%%  \centering\includegraphics[keepaspectratio=true]{uno_first}
-  
-  rechts
+\begin{figure}
+      \includegraphics[scale=0.25]{Warning_256px}
+      \label{fig:Warnschild}
+  \end{figure}  
  
   \begin{block}{}
     Wikiartikel werden i.d.R offen erstellt und haben weder eine direkte redaktionelle
@@ -147,8 +174,7 @@
 
 
 \begin{frame}
-  \frametitle{Funktionsweise am Beispiel eines Mediawikis}
-  \framesubtitle{Die Startseite des Wikis}
+  \frametitle{Funktionsweise am Beispiel eines Mediawikis}{Die Startseite des Wikis}
 
   \begin{itemize}
     \item Die Begrüßungseite des Wikis:
@@ -208,10 +234,10 @@
     normaler Text (Leerzeile beginnt einen neuen Absatz)             &                                \\ 
     \hline
      
-    \texttt{'fettschrift}'                                           & \textbf{fettschrift}                \\ 
+    \texttt{'''fettschrift'''}                                           & \textbf{fettschrift}                \\ 
     \hline
      
-    \texttt{kursivschrift}                                           & \emph{kursivschrift}                \\ 
+    \texttt{''kursivschrift''}                                           & \emph{kursivschrift}                \\ 
     \hline
      
     \texttt{[[Link\_auf\_eine\_Wikiseite]]} (sog. Wikilink)          &     \\ 
@@ -271,23 +297,19 @@
   \frametitle{Weitere Wiki-Formatierungen}
   \begin{longtable}{|l|l|}
     \hline
-    \textbf{Formatierung                                             } & \textbf{Ergebnis                       } \\ 
+    \textbf{Formatierung} & \textbf{Ergebnis} \\ 
     \hline
-     
-    %% \texttt{[[Datei:Bild.jpg|Text]]} oder \texttt{[[Bilddatei|miniatur|Größe|Position|Bilduntertitel]]}  & \raggedright  \includegraphics[keepaspectratio=true,width=0.8\textwidth]{studium/rapid-dino.jpg}
-     \\ 
+    \texttt{[[Datei:Bild.jpg|Text]]} oder \texttt{[[Bilddatei|miniatur|Größe|Position|Bilduntertitel]]}  &   \includegraphics[keepaspectratio=true, width=\textwidth]{rapid-dino.jpg} \\
+    \hline
+    Tabellen & \href{https://de.wikipedia.org/wiki/Hilfe:Tabellen}{Beispiel siehe hier} \\ 
+    \hline
+%    \texttt{<math> a^2 + b^2 = c^2 </math> } & Beispiel für die Matheformel $ a^2 + b^2 = c^2 $ \\
+    \hline
+    ... & ... \\     
+    \hline
+\end{longtable}
 
-    \hline
-     
-    Tabellen                             & \href{https://de.wikipedia.org/wiki/Hilfe:Tabellen}{Beispiel siehe hier} \\ 
-    \hline
-     
-    \multicolumn{2}{|l|}{...} \\ 
-    \hline
-     
-  \end{longtable}
-
-  Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und können in der Regel rückgängig gemacht werden.
+Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und können in der Regel rückgängig gemacht werden.
 \end{frame}
 
 
@@ -382,7 +404,29 @@
       \item Einarbeitungsseiten (\href{http://wiki.stura.htw-dresden.de/index.php/Wiki/Einarbeitung}{Wiki}, \href{http://wiki.stura.htw-dresden.de/index.php/Einarbeitung}{Allgemein})
       \item Infos zur \href{http://wiki.stura.htw-dresden.de/index.php/Artikelerstellung}{Artikelerstellung} und \href{http://wiki.stura.htw-dresden.de/index.php/Admin:Artikelgestaltung}{-gestaltung} sowie \href{https://de.wikipedia.org/wiki/Wikipedia:Wie_schreibe_ich_gute_Artikel}{weitereTipps}
     \end{itemize}
+    \item Spezialseiten
   \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Bilder und andere Medien}
+  \framesubtitle{ins Wiki hochladen und verwenden}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Bilder und andere Medien}
+  \framesubtitle{aktualisieren und kommentieren}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Spezialseiten}
+%%  \framesubtitle{}
+
 \end{frame}
 
 
