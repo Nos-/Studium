@@ -1,88 +1,90 @@
-%% \documentclass[a4paper, oneside, 10pt]{article}
-\documentclass{beamer}
-
+\documentclass{beamer}              % Für Präsentation
+% \documentclass[handout]{beamer}   % Für Handouts
+%   \mode<handout>{%
+%   \usepackage{pgfpages}
+%   \pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm]
+% }
+ 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
 \usepackage{hyperref}
 \usepackage{longtable}
 \usepackage{graphicx}
+\usepackage{makeidx}
 
 \title{Wikischulung}
 \subtitle{Gemeinsame Wissensverwaltung per Wiki}
 \author{Norman Schwirz}
+\institute{StuRa der HTW Dresden, Bereich Schulungen}
+\titlegraphic{\includegraphics[keepaspectratio=true, scale=1]{wikischool-logo}}
+\subject{Gemeinsame Wissensverwaltung per Wiki}
+\keywords{Wiki, Schulung, StuRa, Einarbeitung}
 \date{\today}
 
-\begin{document}
-\begin{frame} %%{Wiki-Schulung}{Gemeinsame Wissensverwaltung per Wiki}
+\makeindex
 
-%  \maketitle
+% \includeonlyframes{Folie123}    % zum schnellen Übersetzen einzelner Folien, funzt jedoch nicht.
+
+\begin{document}
+
+% \frame{\titlepage}
+% \frame[plain]{\titlepage}
+% \frame[plain]{\maketitle}
+
+\begin{frame} %%{Wiki-Schulung}{Gemeinsame Wissensverwaltung per Wiki}
+%   \maketitle
   \begin{center}
     \includegraphics[keepaspectratio=true, scale=1]{wikischool-logo}
     \begin{longtable}{|l|l|}
       \hline
       %% \multicolumn{2}{|l|}{ Crystal Clear app kworldclock Veranstaltungskurzinfo } \\ 
       %% \hline
-       
-       \textbf{Thema:}        &  \textbf{Gemeinsame Wissensverwaltung per Wiki}                 \\ 
-      \hline
-       
-       Ort:                   &  StuRa-Office, Z124 Dresden                                      \\ 
-      \hline
-       
-       Datum:                 &  04.12.2014                                                      \\ 
-      \hline
-       
-       Zeit:                  &  18.30 - 20:30 Uhr                                               \\ 
-      \hline
-       
-       Referent:              &  \href{http://www2.htw-dresden.de/~s70341/cgi-bin/dokuwiki/doku.php?id=user:norman}{Norman Schwirz}  \\ 
-      \hline
-       
+        
+       \textbf{Thema:}        &  \textbf{Gemeinsame Wissensverwaltung per Wiki}                  \\ 
+      \hline       
+       Ort:                   &  KoSe, Hohenstein                                                \\ 
+      \hline       
+       Datum:                 &  10.01.2015                                                      \\
+      \hline       
+       Zeit:                  &  ??? Uhr                                               \\ 
+      \hline       
+       Referent:              &  \href{http://www.stura.htw-dresden.de/members/NormanSchwirz}{Norman Schwirz}  \\ 
+      \hline       
     \end{longtable}
   \end{center}
-\end{frame}
-
-
-% \begin{frame}
-%     \frametitle{Inhalt}
-%     \tableofcontents
-% \end{frame}
- 
-
-\begin{frame}{Inhaltsübersicht}
-  \begin{itemize}
-    \item was sind Wikis
-    \item grundsätzliche Hinweise
-    \item Theorie oder Praxis? (Je nach Wunsch)
-    \begin{itemize}
-      \item ein wenig zu Aufbau und Struktur des StuRa-Wikis der HTW-DD und dem The-Empire- Wiki
-      \item der erste selbst erstellte Wikiartikel
-    \end{itemize}
-    \item Was gehört ins Wiki und was nicht
-    \item Semantic-MediaWiki und Addons (falls noch Zeit übrig sein sollte)
-    \item Fragerunde
-  \end{itemize}
 \end{frame}
 
 
 \begin{frame}
   \frametitle{Eure Erwartungen?}
 
+%  \onslide<+->
   \begin{figure}
-      \begin{center}
-        \includegraphics[scale=0.5]{Circle-question_400x400.png}
-        \label{fig:Fragezeichenschild}
-      \end{center}
-    \end{figure}
+%    \begin{center}
+      \includegraphics[scale=0.5]{Circle-question_400x400.png}
+      \label{fig:Fragezeichenschild}
+%    \end{center}
+  \end{figure}
   
 \end{frame}
 
 
 \begin{frame}
+  \frametitle{Inhalt}
+  \tableofcontents
+\end{frame}
+
+\AtBeginSection{%
+  \tableofcontents[currentsection]
+}
+
+\section{Was sind Wikis}
+
+\begin{frame}
   \frametitle{Was sind Wikis}
   \begin{block}{}
-    {\tiny “Ein Wiki (hawaiisch für „schnell“[1]), seltener auch WikiWiki
+    {\small "Ein Wiki (hawaiisch für „schnell“[1]), seltener auch WikiWiki
     oder WikiWeb genannt, ist ein Hypertext-System für Webseiten, deren
     Inhalte von den Benutzern nicht nur gelesen, sondern auch online direkt
     im Webbrowser geändert werden können (Web-2.0-Anwendung). Diese
@@ -91,7 +93,7 @@
     Bearbeiten der Inhalte wird meist eine einfach zu erlernende
     vereinfachte Auszeichnungssprache verwendet. Die bekannteste Anwendung
     ist die Online-Enzyklopädie Wikipedia, welche die Wiki-Software
-    MediaWiki einsetzt.” \\ Quelle: \url{http://de.wikipedia.org/wiki/Wiki}, Stand 08.01.2014}
+    MediaWiki einsetzt." \\ Quelle: \url{http://de.wikipedia.org/wiki/Wiki}, Stand 08.01.2014}
   \end{block}
   \begin{block}{}
     Ein Wiki bezeichnet also eine \textbf{Onlineplattform}, die mittels
@@ -105,13 +107,13 @@
   \begin{table}
     \caption{Wikivergleich1}
     \label{tab:Wikivergleich1}
-
     \begin{center}
       \begin{longtable}{|l|l|}
         \hline
-        \textbf{\href{http://wiki.stura.htw-dresden.de}{StuRa-Wiki}}
+        \href{http://wiki.stura.htw-dresden.de}{StuRa-Wiki}
         Typ: MediaWiki
         Zweck: Das StuRa-Wiki soll KEIN Lexikon sein, sondern unserer Archivierung dienen &
+
         \textbf{\href{http://www.the-empire.de}{the-empire- Wiki}}
         Typ: Semantic-MediaWiki
         Zweck: Organisations- und Kommunitationsplattform einer öffentlichen Initiative \\ 
@@ -151,11 +153,12 @@
 
 \end{frame}
 
+\section{Grundsätzliche Hinweise}
 
 \begin{frame}
   \frametitle{Grundsätzliche Hinweise}{Haftung für Inhalte}
 
-\begin{figure}
+  \begin{figure}
       \includegraphics[scale=0.25]{Warning_256px}
       \label{fig:Warnschild}
   \end{figure}  
@@ -172,11 +175,12 @@
   \end{block}
 \end{frame}
 
+\section{Theorie oder Praxis? (Je nach Wunsch)}
 
 \begin{frame}
   \frametitle{Funktionsweise am Beispiel eines Mediawikis}{Die Startseite des Wikis}
 
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Die Begrüßungseite des Wikis:
     \begin{itemize}
       \item z.B.: \url{http://wiki.stura.htw-dresden.de}
@@ -196,7 +200,7 @@
 
   rechts
 
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Suchen und finden
     \begin{itemize}
       \item für konkrete Suchbegriffe
@@ -220,9 +224,11 @@
   Artikel können nicht nur gelesen werden, sondern wollen auch bearbeitet
   werden - und zwar von euch!
 
-  zentriert
+  Bild des Editors
 
 \end{frame}
+
+\subsection{Wikisprache für Anfänger}
 
 \begin{frame}
   \frametitle{Wie sag’ ich’s auf Wikiisch?}
@@ -316,7 +322,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 \begin{frame}
   \frametitle{Was sind Diskussionsseiten?}
 
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item sie dienen der Diskussion über den zugehörigen Artikel
     \item auf ihnen können Fragen und Ideen zur Diskussion gestellt werden,
       die im eigentlichen Artikel fehl am Platz wären
@@ -331,7 +337,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
   \frametitle{Wer hat was wann wie geändert?}
 
   Antwort auf diese Frage geben die:
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Versionshistorie
     \begin{itemize}
       \item Wann, warum und von wem wurde der aktuelle Artikel bisher bearbeitet?
@@ -346,7 +352,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 
 \begin{frame}
   \frametitle{Änderungsbenachrichtigungen}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Um sofort zu erfahren, wenn Artikel bearbeitet wurden
     \item bequem per
     \begin{itemize}
@@ -363,7 +369,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 
 \begin{frame}
   \frametitle{Wikilinks, Permalinks und “Links auf diese Seite”}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Wikiartikel können besonders einfach miteinander verknüpft werden
     \item nicht existierende Zielartikel werden beim 1. Besuch automatisch erstellt
     \item sog. Perma(nent)links verweisen hierbei nicht auf die aktuelle Artikelfassung sondern auf \textbf{eine bestimmte} frühere
@@ -374,7 +380,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 
 \begin{frame}
   \frametitle{Einen neuen Wikiartikel erstellen}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Vorab-Fragen
     \begin{itemize}
       \item Zweck (z.B.: Ideenfindung, Dokumentation)
@@ -391,10 +397,11 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
   Artikel, Namespaces, Kategorien bitte in Singularform!
 \end{frame}
 
+\subsection{ein wenig zu Wiki-Aufbau und Struktur}
 
 \begin{frame}
   \frametitle{Aufbau/ Struktur des StuRa-Wikis}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item \href{http://wiki.stura.htw-dresden.de/index.php/Spezial:Kategorien}{Kategorien} und [\url{http://wiki.stura.htw-dresden.de/index.php/Kategorie}:!Hauptkategorie/Unterkategorien]
     \item \href{http://wiki.stura.htw-dresden.de/index.php/Admin:Namensr\%C3\%A4ume}{Namensräume}
     \item Einstiegs-/ Übersichtsseiten
@@ -408,6 +415,24 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
   \end{itemize}
 \end{frame}
 
+\subsection{der erste selbst erstellte Wikiartikel}
+
+\begin{frame}
+  \frametitle{Zeit für die Praxis...}
+  \framesubtitle{der erste eigene Wikiartikel}
+
+  Bestimmt hast du dir schon einen Wikiartikel ausgesucht, den du erweitern oder aktualisieren möchtest. Natürlich kannst du auch einen neuen Wikiartikel Erstellen.
+  
+  \begin{itemize}
+    \item Wikiartikel bearbeiten- Link
+    \item neuen Wikiartikel anlegen
+    \begin{description}
+      \item[- Artikel-Wunschliste] Einen Artikel aus der Liste "gewünschter" Wikiartikel anlegen
+      \item[- Wikilink verwenden] Einfach in einem bestehenden Wikiartikel auf einen \texttt{[[neuen Wikiartikel]]} verlinken (er wird dann beim 1. draufklicken automatisch erstellt)
+    \end{description}
+  \end{itemize}
+
+\end{frame}
 
 \begin{frame}
   \frametitle{Bilder und andere Medien}
@@ -429,6 +454,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 
 \end{frame}
 
+\section{Was gehört ins Wiki und was nicht?}
 
 \begin{frame}
   \frametitle{Was gehört (nicht) ins Wiki?}
@@ -441,7 +467,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
   
 \begin{frame}
   \frametitle{Was sollte nun klar sein?}
-  \begin{itemize}
+  \begin{itemize}[<+->]
     \item Was Wikis sind und wie man sie benutzt
     \item Wie aus einer Idee ein Wikiartikel werden kann, der uns allen nützt
     \item Wieso man auf seinen gesunden Menschenverstand hören sollte
@@ -450,6 +476,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
   \end{itemize}
 \end{frame}
 
+\section{(Semantic) Mediawiki und Addons (ja nach Interesse)}
 
 \begin{frame}
   \frametitle{Semantik MediaWiki}
@@ -474,6 +501,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 
 \end{frame}
 
+\section{Fragerunde}
 
 \begin{frame}
   \frametitle{Danke für eure Aufmerksamkeit!}
@@ -494,15 +522,25 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
     \item \url{http://www.wikipedia.org}
     \item \url{https://commons.wikimedia.org}
     \item \url{https://www.mediawiki.org/wiki/Manual:Extensions/de}
-  \end{itemize}
+  \end{itemize}  
 \end{frame}
 
+% \begin{frame}         %% Versuch eines Indexes
+%   \frametitle{Index}
+% 
+%   \index{Haupteintrag!Untereintrag}           %% Besp.einträge (sollten eigentlich irgendwo im Text stehen)
+%   \index{Haupteintrag!weitererUntereintrag}
+%   \index{weitererHaupteintrag!noch_ein_Untereintrag}
+%   \printindex
+% \end{frame}
+% 
 \begin{frame}
   \frametitle{Das Wiki ist, was ihr draus macht!}
   \framesubtitle{Link zur Präsentation}
   \begin{itemize}
-    \item \url{http://www.the-empire.de/index.php/Wiki-Schulung} (Ursprüngliche Url)
-    \item \url{http://www2.htw-dresden.de/~s70341/cgi-bin/dokuwiki/doku.php?id=studium:wikischulung-knh_2014} (Fork)
+    \item \url{http://wiki.stura.htw-dresden.de/index.php/Konstituierungsseminar/2015/Wikischulung} (Wikiartikel der Schulung incl. Präsentationsfolien)
+    \item \url{http://www.stura.htw-dresden.de/members/NormanSchwirz/workshops/}xxx (Präsentationsfolien im Plone)
+    \item \url{https://github.com/Nos-/Studium/tree/master/Wikivortrag} (LaTeX-Quelldateien zum Überarbeiten)
   \end{itemize}
 \end{frame}
 
