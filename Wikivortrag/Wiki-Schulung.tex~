@@ -59,13 +59,13 @@
 \begin{frame}
   \frametitle{Eure Erwartungen?}
 
-	%  \onslide<+->
-	\begin{figure}[tbph]
-		\centering
-		\includegraphics[width=0.7\linewidth]{500px-Notepad_icon}
-		\caption[Notizblock]{Notizblock}
-		\label{fig:500px-Notepad_icon}
-	\end{figure}
+%  \onslide<+->
+  \begin{figure}
+%    \begin{center}
+      \includegraphics[scale=0.5]{Circle-question_400x400.png}
+      \label{fig:Fragezeichenschild}
+%    \end{center}
+  \end{figure}
   
 \end{frame}
 
@@ -84,7 +84,7 @@
 \begin{frame}
   \frametitle{Was sind Wikis}
   \begin{block}{}
-    {\small \textquotedblleft Ein Wiki (hawaiisch für 'schnell'[1]), seltener auch WikiWiki
+    {\small "Ein Wiki (hawaiisch für „schnell“[1]), seltener auch WikiWiki
     oder WikiWeb genannt, ist ein Hypertext-System für Webseiten, deren
     Inhalte von den Benutzern nicht nur gelesen, sondern auch online direkt
     im Webbrowser geändert werden können (Web-2.0-Anwendung). Diese
@@ -93,7 +93,7 @@
     Bearbeiten der Inhalte wird meist eine einfach zu erlernende
     vereinfachte Auszeichnungssprache verwendet. Die bekannteste Anwendung
     ist die Online-Enzyklopädie Wikipedia, welche die Wiki-Software
-    MediaWiki einsetzt.\textquotedblright  \\ Quelle: \url{http://de.wikipedia.org/wiki/Wiki}, Stand 08.01.2014}
+    MediaWiki einsetzt." \\ Quelle: \url{http://de.wikipedia.org/wiki/Wiki}, Stand 08.01.2014}
   \end{block}
   \begin{block}{}
     Ein Wiki bezeichnet also eine \textbf{Onlineplattform}, die mittels
@@ -170,7 +170,7 @@
     möglicherweise gefährdende Empfehlungen enthalten.
   \end{block}
   \begin{block}{}
-    Daher sollte möglichst immer sorgsam, mit gesundem
+    Daher sollte sollte möglichst immer sorgsam, mit gesundem
     Menschenverstand und als angemeldeter Nutzer gearbeitet werden...
   \end{block}
 \end{frame}
@@ -198,11 +198,7 @@
 \begin{frame}
   \frametitle{Die Suchmaske}
 
-  \begin{figure}
-    \includegraphics[scale=0.25]{Stura-Wiki-Seitenleiste}
-    \caption{Suchmaske des StuRa-Wikis}
-    \label{fig:Suchmaske}
-  \end{figure}
+  rechts
 
   \begin{itemize}[<+->]
     \item Suchen und finden
@@ -226,30 +222,11 @@
 \begin{frame}
   \frametitle{Die erste Bearbeitung}
   Artikel können nicht nur gelesen werden, sondern wollen auch bearbeitet
-  werden - und zwar von euch!\\
+  werden - und zwar von euch!
 
-	\begin{figure}[tbph]
-	\centering
-	\includegraphics[width=1\linewidth]{Wikiartikel_bearbeiten}
-	\caption[Wikiartikel bearbeiten]{Wikiartikel bearbeiten}
-	\label{fig:Wikiartikel_bearbeiten}
-	\end{figure}
+  Bild des Editors
+
 \end{frame}
-
-
-\begin{frame}
-  \frametitle{Die erste Bearbeitung}
-  \framesubtitle{die Artikelvorschau}
-  So siehts dann aus.\\
-
-	\begin{figure}[tbph]
-	\centering
-	\includegraphics[width=1\linewidth]{Wikiartikel_Bearbeitungsvorschau}
-	\caption[Wikiartikel bearbeiten]{Wikiartikel Bearbeitungsvorschau}
-	\label{fig:Wikiartikel_Bearbeitungsvorschau}
-	\end{figure}
-\end{frame}
-
 
 \subsection{Wikisprache für Anfänger}
 
@@ -328,7 +305,7 @@
     \hline
     \textbf{Formatierung} & \textbf{Ergebnis} \\ 
     \hline
-    \texttt{[[Datei:Bild.jpg|Text]]} oder \texttt{[[Bilddatei|miniatur|Größe|Position|Bilduntertitel]]}  &   \includegraphics[keepaspectratio=true, width=0.2\textwidth]{rapid-dino.jpg} \\
+    \texttt{[[Datei:Bild.jpg|Text]]} oder \texttt{[[Bilddatei|miniatur|Größe|Position|Bilduntertitel]]}  &   \includegraphics[keepaspectratio=true, width=\textwidth]{rapid-dino.jpg} \\
     \hline
     Tabellen & \href{https://de.wikipedia.org/wiki/Hilfe:Tabellen}{Beispiel siehe hier} \\ 
     \hline
@@ -351,13 +328,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
       die im eigentlichen Artikel fehl am Platz wären
   \end{itemize}
 
-	\begin{figure}[tbph]
-		\centering
-		\includegraphics[width=0.7\linewidth]{Wiki-Kopfzeile_Diskussionslink_markiert}
-		\caption[Diskussionsseitentab]{Diskussionsseitentab in der Kopfzeile des StuRa-Wikis}
-		\label{fig:Wiki-Kopfzeile_Diskussionslink_markiert}
-	\end{figure}
-
+  zentriert
 
 \end{frame}
 
@@ -488,6 +459,9 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 \begin{frame}
   \frametitle{Was gehört (nicht) ins Wiki?}
 
+  % Datei:Icon_of_three_people_in_different_shades_of_grey.svg
+  \textless File:Warning\textgreater  copyright icon.svg
+
 \end{frame}
 
   
@@ -507,35 +481,23 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 \begin{frame}
   \frametitle{Semantik MediaWiki}
 
-	\begin{figure}[tbph]
-		\centering
-		\includegraphics[width=\linewidth]{Lebensmittelretten-Dresden_Landkarte_mit_Seitenleisten}
-		\caption[Ein Semantik-Mediawiki-Beispiel]{Ein Semantik-Mediawiki-Beispiel}
-		\label{fig:Lebensmittelretten-Dresden_Landkarte_mit_Seitenleisten}
-	\end{figure}
+  600px|gerahmt|zentriert| [...Am Beispiel von *Lebensmittelretten Dresden*](http://food.the-empire.de)
 
-  ...Am Beispiel von Lebensmittelretten Dresden (http://food.the-empire.de)
+   - ein *The Empire* Unterwiki
 \end{frame}
   
-%\begin{frame}
-%  \frametitle{Semantik-MediaWiki II (Semantik)}
-%
-%  800px|gerahmt|zentriert|...und hier noch ein [Bsp. aus dem The Empire-Wiki](http://www.the-empire.de/index.php/Spezial:Durchsuchen/Einrichtung:Aprikosengarten)
-%
-%\end{frame}
+\begin{frame}
+  \frametitle{Semantik-MediaWiki II (Semantik)}
+
+  800px|gerahmt|zentriert|...und hier noch ein [Bsp. aus dem The Empire-Wiki](http://www.the-empire.de/index.php/Spezial:Durchsuchen/Einrichtung:Aprikosengarten)
+
+\end{frame}
 
 
 \begin{frame}
-  \frametitle{MediaWiki-Erweiterungen (sog. Addons)}
+  \frametitle{Wiki-Erweiterungen (sog. Addons)}
 
-	\begin{figure}[tbph]
-		\centering
-		\includegraphics[width=\linewidth]{Mediawiki-Extensions}
-		\caption[Mediawiki-Erweiterungen]{Mediawiki-Erweiterungen}
-		\label{fig:Mediawiki-Extensions}
-	\end{figure}
-
-  (https://www.mediawiki.org/wiki/Manual:Extensions/de)
+  gerahmt|zentriert|Übersichtsseite der [Mediawiki-Erweiterungen](https://www.mediawiki.org/wiki/Manual:Extensions/de)
 
 \end{frame}
 
@@ -545,12 +507,7 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
   \frametitle{Danke für eure Aufmerksamkeit!}
   \framesubtitle{Gibts Fragen?}
 
-  \begin{figure}
-%    \begin{center}
-      \includegraphics[scale=0.5]{Circle-question_400x400.png}
-      \label{fig:Fragezeichenschild}
-%    \end{center}
-  \end{figure}
+  zentriert
 
 \end{frame}
 
@@ -577,22 +534,12 @@ Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und k
 %   \printindex
 % \end{frame}
 % 
-% \begin{frame}
-%   \frametitle{Glossary}
-%
-%   Hello world
-%
-%   \makeglossary
-% \end{frame}
-
-
- 
 \begin{frame}
   \frametitle{Das Wiki ist, was ihr draus macht!}
   \framesubtitle{Link zur Präsentation}
   \begin{itemize}
     \item \url{http://wiki.stura.htw-dresden.de/index.php/Konstituierungsseminar/2015/Wikischulung} (Wikiartikel der Schulung incl. Präsentationsfolien)
-    \item \url{http://www.stura.htw-dresden.de/stura/ref/verwaltung/schulungen/kose/kose-2015/praesentationen/wiki-schulung-kose-2015} (Präsentationsfolien im Plone)
+    \item \url{http://www.stura.htw-dresden.de/members/NormanSchwirz/workshops/}xxx (Präsentationsfolien im Plone)
     \item \url{https://github.com/Nos-/Studium/tree/master/Wikivortrag} (LaTeX-Quelldateien zum Überarbeiten)
   \end{itemize}
 \end{frame}

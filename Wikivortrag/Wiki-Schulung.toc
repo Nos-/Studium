@@ -1,0 +1,11 @@
+\beamer@endinputifotherversion {3.33pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Was sind Wikis}{4}{0}{1}
+\beamer@sectionintoc {2}{Grundsätzliche Hinweise}{8}{0}{2}
+\beamer@sectionintoc {3}{Theorie oder Praxis? (Je nach Wunsch)}{10}{0}{3}
+\beamer@subsectionintoc {3}{1}{Wikisprache für Anfänger}{28}{0}{3}
+\beamer@subsectionintoc {3}{2}{ein wenig zu Wiki-Aufbau und Struktur}{55}{0}{3}
+\beamer@subsectionintoc {3}{3}{der erste selbst erstellte Wikiartikel}{63}{0}{3}
+\beamer@sectionintoc {4}{Was gehört ins Wiki und was nicht?}{67}{0}{4}
+\beamer@sectionintoc {5}{(Semantic) Mediawiki und Addons (ja nach Interesse)}{74}{0}{5}
+\beamer@sectionintoc {6}{Fragerunde}{77}{0}{6}
