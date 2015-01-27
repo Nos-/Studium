@@ -12,6 +12,8 @@
 \usepackage{longtable}
 \usepackage{graphicx}
 \usepackage{makeidx}
+% \usepackage{multicol}
+% \usepackage{multirow}
 
 \title{Wikischulung}
 \subtitle{Gemeinsame Wissensverwaltung per Wiki}
@@ -104,53 +106,67 @@
 
 \begin{frame}
   \frametitle{Einige Wikis im Vergleich}
-  \begin{table}
-    \caption{Wikivergleich1}
-    \label{tab:Wikivergleich1}
-    \begin{center}
-      \begin{longtable}{|l|l|}
-        \hline
-        \href{http://wiki.stura.htw-dresden.de}{StuRa-Wiki}
-        Typ: MediaWiki
-        Zweck: Das StuRa-Wiki soll KEIN Lexikon sein, sondern unserer Archivierung dienen &
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \textbf{\href{http://wiki.stura.htw-dresden.de}{StuRa-Wiki}}
+      \begin{itemize}
+        \item Typ: MediaWiki
+        \item Zweck: Das StuRa-Wiki soll KEIN Lexikon sein, sondern unserer Archivierung dienen
+      \end{itemize}
 
-        \textbf{\href{http://www.the-empire.de}{the-empire- Wiki}}
-        Typ: Semantic-MediaWiki
-        Zweck: Organisations- und Kommunitationsplattform einer öffentlichen Initiative \\ 
-        \hline
+      \textbf{\href{http://www.the-empire.de}{the-empire- Wiki}}
+      \begin{itemize}
+        \item Typ: Semantic-MediaWiki
+        \item Zweck: Organisations- und Kommunitationsplattform einer öffentlichen Initiative \\ 
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\linewidth}
 
-        \textbf{\href{http://www.wikipedia.de}{Wikipedia}}
-        Typ: MediaWiki
-        Zweck: Das Wissen der Welt sammeln und jedermann weltweit frei zur Verfügung stellen &
-        \textbf{\href{http://www2.htw-dresden.de/~s70341/cgi-bin/dokuwiki/doku.php}{Mein MitschriftenWiki}}
-        Typ: DokuWiki
-        Zweck: Gemeinsames Erstellen von Studienmitschriften als \emph{freies} Wissen (s.a.  Open Educational Ressources; es wird die gleich Lizenz wie bei der Wikipedia verwendet) \\ 
-        \hline
-      \end{longtable}
-    \end{center}
-  \end{table}
+      \textbf{\href{http://www.wikipedia.de}{Wikipedia}}
+      \begin{itemize}
+        \item Typ: MediaWiki
+        \item Zweck: Das Wissen der Welt sammeln und jedermann weltweit frei zur Verfügung stellen
+      \end{itemize}
 
+      \textbf{\href{http://www2.htw-dresden.de/~s70341/cgi-bin/dokuwiki/doku.php}{Mein MitschriftenWiki}}
+      \begin{itemize}
+        \item Typ: DokuWiki
+        \item Zweck: Gemeinsames Erstellen von Studienmitschriften als \emph{freies} Wissen (s.a.  Open Educational Ressources; es wird die gleich Lizenz wie bei der Wikipedia verwendet)
+      \end{itemize}
+
+    \end{column}
+  \end{columns}
 \end{frame}
 
 
 \begin{frame}
   \frametitle{Einige Wikis im Vergleich II}
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
 
-  \begin{table}
-    \caption{Wikivergleich2}
-    \label{tab:Wikivergleich2}
+      \textbf{StuRa-Wiki}
+      \begin{itemize}
+        \item Typ: MediaWiki Funktionsumfang: an StuRa- Alltag angepasst, einfach und ohne überflüssige Funktionen
+      \end{itemize}
 
-    \begin{center}
-      \begin{longtable}{|l|l|}
-        \hline
-        \textbf{StuRa-Wiki} Typ: MediaWiki Funktionsumfang: an StuRa- Alltag angepasst, einfach und ohne überflüssige Funktionen & \textbf{the-empire- Wiki} Typ: Semantic-MediaWiki Funktionsumfang: Ähnlich Mediawiki, jedoch mit einigen Zusatzfunk- tionen (dyn. Landkarten...) \\ 
-        \hline
-        \textbf{Wikipedia} Typ: MediaWiki Funktionsumfang: gemacht um das (gesamte) Wissen der Welt zu speichern - von allen für alle & \textbf{MitschriftenWiki} Typ: DokuWiki Funktionsumfang: Angepasst an Studienalltag und den Hochschulserver, auf dem es läuft \\ 
-        \hline
-      \end{longtable}
-    \end{center}
-  \end{table}
+      \textbf{the-empire- Wiki}
+      \begin{itemize}
+        \item Typ: Semantic-MediaWiki Funktionsumfang: Ähnlich Mediawiki, jedoch mit einigen Zusatzfunktionen (dyn. Landkarten...)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+    
+      \textbf{Wikipedia}
+      \begin{itemize}
+        \item Typ: MediaWiki Funktionsumfang: gemacht um das (gesamte) Wissen der Welt zu speichern - von allen für alle
+      \end{itemize}
 
+      \textbf{MitschriftenWiki}
+      \begin{itemize}
+        \item Typ: DokuWiki Funktionsumfang: Angepasst an Studienalltag und den Hochschulserver, auf dem es läuft
+      \end{itemize}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \section{Grundsätzliche Hinweise}
@@ -254,7 +270,8 @@
 
 \begin{frame}
   \frametitle{Wie sag’ ich’s auf Wikiisch?}
-  \begin{longtable}{|l|l|}
+  
+  \begin{tabular}{|l|l|}
     \hline
     \textbf{Formatierung                                           } & \textbf{Ergebnis                      } \\ 
     \hline
@@ -277,7 +294,7 @@
     \texttt{[[http://www.the-empire.de Empire-Wiki]]} (sog. externer Link)     & \href{http://www.the-empire.de}{ Empire-Wiki} \\ 
     \hline
      
-  \end{longtable}
+  \end{tabular}
 
   Zwischen den verschiedenen Wikis kann es zwar einige Unterschiede zwischen den Formatierungsanweisungen geben, die Art der Formatierung ist aber immer ähnlich.
 \end{frame}
@@ -285,7 +302,7 @@
 
 \begin{frame}
   \frametitle{Wie sag’ ich’s auf Wikiisch? II}
-  \begin{longtable}{|l|l|}
+  \begin{tabular}{|l|l|}
     \hline
     \textbf{Formatierung                                             } & \textbf{Ergebnis                       } \\ 
     \hline
@@ -317,13 +334,13 @@
     \texttt{\# zweitens}                                               &  2.  zweitens                   \\ 
     \hline
      
-  \end{longtable}
+  \end{tabular}
 \end{frame}
 
 
 \begin{frame}
   \frametitle{Weitere Wiki-Formatierungen}
-  \begin{longtable}{|l|l|}
+  \begin{tabular}{|l|l|}
     \hline
     \textbf{Formatierung} & \textbf{Ergebnis} \\ 
     \hline
@@ -335,7 +352,7 @@
     \hline
     ... & ... \\     
     \hline
-\end{longtable}
+\end{tabular}
 
 Keine Sorge beim Ausprobieren! Sämtliche Änderungen sind nachvollziehbar und können in der Regel rückgängig gemacht werden.
 \end{frame}
