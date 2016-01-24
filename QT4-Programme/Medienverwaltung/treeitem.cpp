@@ -44,74 +44,142 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
+/*
+    treeitem.cpp
 
-#include "mainwindow.h"
-#include "treemodel.h"
+    A container for items of data supplied by the simple tree model.
+*/
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+#include <QStringList>
+
+#include "treeitem.h"
+
+//! [0]
+TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent)
 {
-    setWindowTitle(trUtf8("Medienverwaltung"));
-    splitter = new QSplitter(this);
-    setCentralWidget(splitter);
+    parentItem = parent;
+    itemData = data;
+}
+//! [0]
 
-    mediaWidget = new MediaWidget;
-    splitter->addWidget(mediaWidget);
+//! [1]
+TreeItem::~TreeItem()
+{
+    qDeleteAll(childItems);
+}
+//! [1]
 
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
+//! [2]
+TreeItem *TreeItem::child(int number)
+{
+    return childItems.value(number);
+}
+//! [2]
+
+//! [3]
+int TreeItem::childCount() const
+{
+    return childItems.count();
+}
+//! [3]
+
+//! [4]
+int TreeItem::childNumber() const
+{
+    if (parentItem)
+        return parentItem->childItems.indexOf(const_cast<TreeItem*>(this));
+
+    return 0;
+}
+//! [4]
+
+//! [5]
+int TreeItem::columnCount() const
+{
+    return itemData.count();
+}
+//! [5]
+
+//! [6]
+QVariant TreeItem::data(int column) const
+{
+    return itemData.value(column);
+}
+//! [6]
+
+//! [7]
+bool TreeItem::insertChildren(int position, int count, int columns)
+{
+    if (position < 0 || position > childItems.size())
+        return false;
+
+    for (int row = 0; row < count; ++row) {
+        QVector<QVariant> data(columns);
+        TreeItem *item = new TreeItem(data, this);
+        childItems.insert(position, item);
+    }
+
+    return true;
+}
+//! [7]
+
+//! [8]
+bool TreeItem::insertColumns(int position, int columns)
+{
+    if (position < 0 || position > itemData.size())
+        return false;
+
+    for (int column = 0; column < columns; ++column)
+        itemData.insert(position, QVariant());
+
+    foreach (TreeItem *child, childItems)
+        child->insertColumns(position, columns);
+
+    return true;
+}
+//! [8]
+
+//! [9]
+TreeItem *TreeItem::parent()
+{
+    return parentItem;
+}
+//! [9]
+
+//! [10]
+bool TreeItem::removeChildren(int position, int count)
+{
+    if (position < 0 || position + count > childItems.size())
+        return false;
+
+    for (int row = 0; row < count; ++row)
+        delete childItems.takeAt(position);
+
+    return true;
+}
+//! [10]
+
+bool TreeItem::removeColumns(int position, int columns)
+{
+    if (position < 0 || position + columns > itemData.size())
+        return false;
+
+    for (int column = 0; column < columns; ++column)
+        itemData.remove(position);
+
+    foreach (TreeItem *child, childItems)
+        child->removeColumns(position, columns);
+
+    return true;
 }
 
-void MainWindow::createActions()
+//! [11]
+bool TreeItem::setData(int column, const QVariant &value)
 {
-    exitAction = new QAction(trUtf8("B&eenden"), this);
-    exitAction->setShortcuts(QKeySequence::Quit);
-    exitAction->setStatusTip(trUtf8("Beendet das Programm"));
-    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    if (column < 0 || column >= itemData.size())
+        return false;
 
-    aboutAction = new QAction(trUtf8("&Über dieses Programm"), this);
-    aboutAction->setStatusTip(trUtf8("Zeigt das Infofenster dieses Programmes an"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAction = new QAction(trUtf8("Über &Qt"), this);
-    aboutQtAction->setStatusTip(trUtf8("Zeigt das Infofenster der QT-Bibliotheken an"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    itemData[column] = value;
+    return true;
 }
-
-void MainWindow::about()
-{
-   QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner (Norman Schwirz) ersten QT4-Applikationen."));
-}
-
-void MainWindow::createStatusBar()
-{
-    statusBar()->showMessage(trUtf8("Bereit"));
-}
-
-void MainWindow::createMenus()
-{
-    fileMenu = menuBar()->addMenu(trUtf8("&Datei"));
-//    fileMenu->addAction(openAct);
-//    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(saveAsAct);
-//    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
-
-    menuBar()->addSeparator();
-
-    helpMenu = menuBar()->addMenu(trUtf8("&Hilfe"));
-    helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
-}
-
-void MainWindow::createToolBars()
-{
-    fileToolBar = addToolBar(trUtf8("Datei"));
-//    fileToolBar->addAction(openAct);
-//    fileToolBar->addAction(saveAct);
-    fileToolBar->addAction(exitAction);
-}
+//! [11]

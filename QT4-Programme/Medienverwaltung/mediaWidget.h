@@ -44,74 +44,57 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
+#ifndef MEDIAWIDGET_H
+#define MEDIAWIDGET_H
 
-#include "mainwindow.h"
-#include "treemodel.h"
+#include <QMainWindow>
+#include <QModelIndex>
+#include <QVBoxLayout>
+#include <QToolBar>
+#include <QGroupBox>
+#include <QMenu>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+class QAction;
+class QTreeView;
+class QWidget;
+class QMenu;
+class QGroupBox;
+
+class MediaWidget : public QWidget                         //* , private Ui::MainWindow
 {
-    setWindowTitle(trUtf8("Medienverwaltung"));
-    splitter = new QSplitter(this);
-    setCentralWidget(splitter);
+    Q_OBJECT
 
-    mediaWidget = new MediaWidget;
-    splitter->addWidget(mediaWidget);
+public:
+    MediaWidget(QWidget *parent = 0);
+    QMenu   *actionsMenu;
+    QAction *insertRowAction;
+    QAction *insertColumnAction;
+    QAction *removeRowAction;
+    QAction *removeColumnAction;
+    QAction *insertChildAction;
 
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
-}
 
-void MainWindow::createActions()
-{
-    exitAction = new QAction(trUtf8("B&eenden"), this);
-    exitAction->setShortcuts(QKeySequence::Quit);
-    exitAction->setStatusTip(trUtf8("Beendet das Programm"));
-    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+public slots:
+    void updateActions();
+    void insertChild();
+    bool insertColumn(const QModelIndex &parent = QModelIndex());
+    void insertRow();
+    bool removeColumn(const QModelIndex &parent = QModelIndex());
+    void removeRow();
 
-    aboutAction = new QAction(trUtf8("&Über dieses Programm"), this);
-    aboutAction->setStatusTip(trUtf8("Zeigt das Infofenster dieses Programmes an"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+private:
+    QTreeView   *mediaView;
+    QTreeView   *mediaTypeView;
+    QVBoxLayout *mainLayout;
+    QVBoxLayout *innerLayout;
+    QStatusBar  *statusBar;
+    QToolBar    *toolBar;
+    QGroupBox   *groupBox;
 
-    aboutQtAction = new QAction(trUtf8("Über &Qt"), this);
-    aboutQtAction->setStatusTip(trUtf8("Zeigt das Infofenster der QT-Bibliotheken an"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-}
+    void createToolBars();
+    void createActions();
 
-void MainWindow::about()
-{
-   QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner (Norman Schwirz) ersten QT4-Applikationen."));
-}
+private slots:
+};
 
-void MainWindow::createStatusBar()
-{
-    statusBar()->showMessage(trUtf8("Bereit"));
-}
-
-void MainWindow::createMenus()
-{
-    fileMenu = menuBar()->addMenu(trUtf8("&Datei"));
-//    fileMenu->addAction(openAct);
-//    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(saveAsAct);
-//    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
-
-    menuBar()->addSeparator();
-
-    helpMenu = menuBar()->addMenu(trUtf8("&Hilfe"));
-    helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
-}
-
-void MainWindow::createToolBars()
-{
-    fileToolBar = addToolBar(trUtf8("Datei"));
-//    fileToolBar->addAction(openAct);
-//    fileToolBar->addAction(saveAct);
-    fileToolBar->addAction(exitAction);
-}
+#endif // MEDIAWIDGET_H

@@ -48,67 +48,46 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "mylistmodelwidget/mylistmodelwidget.h"
+#include <QModelIndex>
+
+//* #include "ui_mainwindow.h"
+#include "mediaWidget.h"
 
 class QAction;
-class QMenu;
-class QPlainTextEdit;
+class QTreeView;
+class QWidget;
+class QSplitter;
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow                      //* , private Ui::MainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow();
+    MainWindow(QWidget *parent = 0);
 
-protected:
-    void closeEvent(QCloseEvent *event);
-
-private slots:
-//    void newFile();
-    void open();
-    bool save();
-    bool saveAs();
-    void about();
-//    void documentWasModified();
+public slots:
+//*     void updateActions();
 
 private:
-    void createActions();
-    void createMenus();
-    void createToolBars();
-    void createStatusBar();
-    void readSettings();
-    void writeSettings();
-    bool maybeSave();
-    void loadFile(const QString &fileName);
-    bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
-    void addItem(QAbstractItemModel *model, const QString &mediumId, const QString &mediumLabel, const QString &mediumType, const QString &mediumLentTo, const QString &mediumNotes);
+    MediaWidget *mediaWidget;
+    QSplitter *splitter;
 
-//    QPlainTextEdit *textEdit;
-    QString curFile;
+    QAction *exitAction;
+    QAction *aboutQtAction;
+    QAction *aboutAction;
 
     QMenu *fileMenu;
-    QMenu *editMenu;
     QMenu *helpMenu;
-    QToolBar *fileToolBar;
-    QToolBar *editToolBar;
-    QAction *newAct;
-    QAction *openAct;
-    QAction *saveAct;
-    QAction *saveAsAct;
-    QAction *exitAct;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-    QAction *aboutAct;
-    QAction *aboutQtAct;
 
-    QAbstractItemModel *myListModel;
-    MyListModelWidget *myListModelWidget;
-    QAbstractItemModel* createModel(QObject *parent);     //*   *createModel(QObject *parent)
+    QToolBar *fileToolBar;
+
+    void createActions();
+    void createToolBars();
+    void createStatusBar();
+    void createMenus();
+
+private slots:
+    void about();
 };
 
-
-#endif // MAINWINDOW_H
+#endif

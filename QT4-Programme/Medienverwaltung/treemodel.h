@@ -44,74 +44,60 @@
 **
 ****************************************************************************/
 
-#include <QtGui>
+#ifndef TREEMODEL_H
+#define TREEMODEL_H
 
-#include "mainwindow.h"
-#include "treemodel.h"
+#include <QAbstractItemModel>
+#include <QModelIndex>
+#include <QVariant>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+class TreeItem;
+
+//! [0]
+class TreeModel : public QAbstractItemModel
 {
-    setWindowTitle(trUtf8("Medienverwaltung"));
-    splitter = new QSplitter(this);
-    setCentralWidget(splitter);
+    Q_OBJECT
 
-    mediaWidget = new MediaWidget;
-    splitter->addWidget(mediaWidget);
+public:
+    TreeModel(const QStringList &headers, const QString &data,
+              QObject *parent = 0);
+    ~TreeModel();
+//! [0] //! [1]
 
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
-}
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
 
-void MainWindow::createActions()
-{
-    exitAction = new QAction(trUtf8("B&eenden"), this);
-    exitAction->setShortcuts(QKeySequence::Quit);
-    exitAction->setStatusTip(trUtf8("Beendet das Programm"));
-    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &index) const;
 
-    aboutAction = new QAction(trUtf8("&Über dieses Programm"), this);
-    aboutAction->setStatusTip(trUtf8("Zeigt das Infofenster dieses Programmes an"));
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+//! [1]
 
-    aboutQtAction = new QAction(trUtf8("Über &Qt"), this);
-    aboutQtAction->setStatusTip(trUtf8("Zeigt das Infofenster der QT-Bibliotheken an"));
-    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-}
+//! [2]
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole);
+    bool setHeaderData(int section, Qt::Orientation orientation,
+                       const QVariant &value, int role = Qt::EditRole);
 
-void MainWindow::about()
-{
-   QMessageBox::about(this, trUtf8("über dieses Programm"),
-            trUtf8("Die <b>Medienverwaltung</b> ist eine meiner (Norman Schwirz) ersten QT4-Applikationen."));
-}
+    bool insertColumns(int position, int columns,
+                       const QModelIndex &parent = QModelIndex());
+    bool removeColumns(int position, int columns,
+                       const QModelIndex &parent = QModelIndex());
+    bool insertRows(int position, int rows,
+                    const QModelIndex &parent = QModelIndex());
+    bool removeRows(int position, int rows,
+                    const QModelIndex &parent = QModelIndex());
 
-void MainWindow::createStatusBar()
-{
-    statusBar()->showMessage(trUtf8("Bereit"));
-}
+private:
+    void setupModelData(const QStringList &lines, TreeItem *parent);
+    TreeItem *getItem(const QModelIndex &index) const;
 
-void MainWindow::createMenus()
-{
-    fileMenu = menuBar()->addMenu(trUtf8("&Datei"));
-//    fileMenu->addAction(openAct);
-//    fileMenu->addAction(saveAct);
-//    fileMenu->addAction(saveAsAct);
-//    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
+    TreeItem *rootItem;
+};
+//! [2]
 
-    menuBar()->addSeparator();
-
-    helpMenu = menuBar()->addMenu(trUtf8("&Hilfe"));
-    helpMenu->addAction(aboutAction);
-    helpMenu->addAction(aboutQtAction);
-}
-
-void MainWindow::createToolBars()
-{
-    fileToolBar = addToolBar(trUtf8("Datei"));
-//    fileToolBar->addAction(openAct);
-//    fileToolBar->addAction(saveAct);
-    fileToolBar->addAction(exitAction);
-}
+#endif

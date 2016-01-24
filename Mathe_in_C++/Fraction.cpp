@@ -1,6 +1,6 @@
 /** Mathe für Informatiker - Eine Klasse für gebrochenrationale Zahlen in C++ (Lern-Bsp.)
  * 
- * @Author s70341@htw-dresden.de, 2014
+ * @Author N. Schwirz # \Author Norman Schwirz <nospam.schwirz AT freenet PUNKT de> (Bitte die großgeschriebenen Wörter in der Emailadr. entspr. ersetzen!)
  */
 // Ohne Gewähr! Nutzung auf eigene Gefahr!
 
@@ -23,16 +23,16 @@ class Fraction
 
 		Fraction() {Numerator=0; Denom=1;}					///< überladener Konstruktor mit Standardwerten (0/1=0)
 		Fraction(long Num, long Den);						///< Konstruktor
-		long getNumerator() const {return Numerator;}				///< Gibt den Zähler zurück
-		long getDenom() const {return Denom;}						///< Gibt den Nenner zurück
+		long getNumerator() const {return Numerator;}		///< Gibt den Zähler zurück
+		long getDenom() const {return Denom;}				///< Gibt den Nenner zurück
 		void Display() const;								///< Ausgabe des Bruches
 		float getValue();									///< Gibt den Bruch als Dezimalbruch zurück
-		Fraction getReciprocal() const;							///< Gibt den Kehrwert des Bruches (das Reziproke) zurück
+		Fraction getReciprocal() const;						///< Gibt den Kehrwert des Bruches (das Reziproke) zurück
 		~Fraction(){Numerator=0;Denom=0;};					///< Der Destruktor
 
 		// Rechenoperationen
-		Fraction add(const Fraction & others) const;		///< 2 Brüche miteinander addieren
-		Fraction operator+(const Fraction & others) const;		///< 2 Brüche miteinander addieren Per *Operatorenüberladung* (Hiermit geht nun auch etwas wie: `BruchA + BruchB`)
+		Fraction add(const Fraction & others) const;		///< Addiert 2 Brüche miteinander
+		Fraction operator+(const Fraction & others) const;	///< Addiert 2 Brüche miteinander per *Operatorenüberladung* (Hiermit geht nun auch etwas wie: `BruchA + BruchB`)
 		Fraction substract(const Fraction & others) const;	///< 2 Brüche voneinander substrahieren
 		Fraction multiply(const Fraction & others) const;	///< 2 Brüche miteinander multiplizieren
 		Fraction divide(const Fraction & others) const;		///< 2 Brüche durcheinander dividieren
@@ -41,9 +41,10 @@ class Fraction
 	
 		// interne Hilfsfunktionen
 		long min(long a, long b) const;						///< Gibt den kleineren der beiden Werten zurück (intern)
-		long ggt(long first, long sec) const;					///< Größten gemeinsamen Teiler (kurz: ggT; wurde auch *gcf* genannt) zurückgeben (intern)
-		long kgv(long first, long sec) const;					///< Kleinstes gemeinsames Vielfaches (kurz: kgV) zurückgeben (intern)
+		long ggt(long first, long sec) const;				///< Größten gemeinsamen Teiler (kurz: *ggT*; wurde auch *gcf* genannt) zurückgeben (intern)
+		long kgv(long first, long sec) const;				///< Kleinstes gemeinsames Vielfaches (kurz: *kgV*) zurückgeben (intern)
 };
+
 
 /// Konstruktor, der den neuen Bruch auch gleich kürzt
 Fraction::Fraction(long Num, long Den)
@@ -135,7 +136,7 @@ Fraction Fraction::getReciprocal() const
 
 // Rechenoperationen
 
-/// 2 Brüche miteinander addieren
+/// Addiert 2 Brüche miteinander
 Fraction Fraction::add(
   const Fraction & others									///< der 2. Summand
   ) const {

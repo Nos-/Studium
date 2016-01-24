@@ -1,0 +1,12 @@
+Bücher
+    C++ für Dummies							foo
+    Per Anhalter durch die Gallaxis			bar
+
+Videos
+    Das Leben des Brian						;-)
+    Die Sendung mit der Maus (Folge 123)	irgend ein Text
+
+CDs &DVDs
+    Bolero				Etwas klassisches
+    8 Bit-Noise			Minimalistische Retro-Klänge
+
