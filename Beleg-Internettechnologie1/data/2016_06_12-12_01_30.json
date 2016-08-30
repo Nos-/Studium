@@ -1,0 +1,1 @@
+{"TITLE":"Trojanisches PHP-Pferd - Teil 2","CONTENT":"Es geht noch etwas dreister:\r\n\r\n<?php\r\nphpinfo(); \r\n?>","ID":"2016_06_12-12_01_30","COMMENTS":[{"CDATE":"2016-06-12 12:02","CNAME":"ich","CEMAIL":"keine-em@il.de","CCONTENT":"Nur gut, das dies mittlerweile abgefangen wird. ;-)"}],"DATE":"2016-06-12 12:02"}

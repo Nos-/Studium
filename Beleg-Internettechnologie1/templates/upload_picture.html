@@ -1,0 +1,30 @@
+<form id="upload_picture" role="form" method="post" enctype="multipart/form-data" class="well">
+<div class="form-group">
+    <label for="title">Picture</label>
+    <input type="text" value="{PICTURE-ID}" placeholder="Bitte Bildtitel eingeben (der Dateityp wird automatisch ermittelt)." class="form-control" name="upload_picture">
+</div>
+ <div class="form-group">
+     <div class="col-sm-5">
+     Please specify a file:
+     </div>
+     <div class="col-sm-5 col-sm-offset-1">
+        <input type="hidden" name="MAX_FILE_SIZE" value="{MAXFILESIZE}">
+        <input type="file" name="datafile" accept="image/*" />
+     </div>
+     <div class="col-sm-5">
+        and a license:
+     </div>
+     <div class="col-sm-5 col-sm-offset-1">
+        <select name="license">
+            <option>...-Lizenz</option>
+        </select>
+     </div>
+ </div>
+ <div>
+    <div class="alert-info">
+        <p>Mit dem Hochladen bestätige ich das dies mein eigenes Werk ist bzw. der Ersteller es unter unter einer <a href="http://de.creativecommons.org/was-ist-cc/" >kompatiblen Lizenz</a> freigegeben hat. ÜBERTRAGE OHNE GENEHMIGUNG KEINE URHEBERRECHTLICH GESCHÜTZTEN INHALTE!</p>
+    </div>
+    <input type="submit" name="upload" value="Dateiupload" class="btn btn-default" />
+</div>
+</form>
+{PICTURE-GALLERY}

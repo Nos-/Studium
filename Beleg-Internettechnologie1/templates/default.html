@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{HEADLINE}</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="blog-masterhead">
+    <nav class="blog-nav navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="blog-nav-item active"><a href="./index.php">Home</a></li>
+                    <li class="blog-nav-item dropdown">
+                        <a href="?admin" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="?admin&new_post">New Post</a></li>
+                            <li><a href="?admin&edit_post={POST-ID}">Edit Post</a></li>
+                            <li><a href="?admin&upload_picture">Upload Picture + View Gallery</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            {MAIN}
+			<footer>
+				{PAGER}
+                                <p>Sofern nicht anders angegeben, unterliegen die Inhalte dieses Blogs der <a href="http://de.creativecommons.org/was-ist-cc/">Creative-Commons-Namensnennung-3.0-de-Lizenz</a>.</p>
+			</footer>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <aside class="sidebar-module">
+				{SIDEBAR}
+            </aside>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../public/js/jquery.min.js"></script>
+<script src="../public/js/bootstrap.min.js"></script>
+</html>
